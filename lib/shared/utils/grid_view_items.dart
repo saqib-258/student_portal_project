@@ -43,11 +43,11 @@ List<GridItem> adminDashboardGridItems = [
       screen: ManageDateSheetScreen()),
   GridItem(
       title: "Teacher Evaluation",
-      image: datesheetImage,
+      image: assessmentImage,
       screen: const TeacherEvaluationCoursesScreen()),
   GridItem(
       title: "Add Course Allocation",
-      image: datesheetImage,
+      image: courseAllocation,
       screen: AddCourseAllocation())
 ];
 

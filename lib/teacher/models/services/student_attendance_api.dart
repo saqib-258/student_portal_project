@@ -24,6 +24,36 @@ class StudentAttendanceApi {
       return (Left(e));
     }
   }
+  Future<Either<Exception, bool>> acceptContest(
+      int aid) async {
+    try {
+      String url = '$endPoint/Teacher/AcceptContest?aid=$aid';
+      Uri uri = Uri.parse(url);
+      final response = await http.post(uri);
+      if (response.statusCode == 200) {
+        return const Right(true);
+      } else {
+        return Left(throw Exception("status code:${response.statusCode}"));
+      }
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+  Future<Either<Exception, bool>> rejectContest(
+      int aid) async {
+    try {
+      String url = '$endPoint/Teacher/RejectContest?aid=$aid';
+      Uri uri = Uri.parse(url);
+      final response = await http.post(uri);
+      if (response.statusCode == 200) {
+        return const Right(true);
+      } else {
+        return Left(throw Exception("status code:${response.statusCode}"));
+      }
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
 
   Future<Either<Exception, String>> getContests() async {
     try {

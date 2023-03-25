@@ -1,5 +1,5 @@
 import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 
-const ip = '192.168.175.105';
+const ip = '192.168.1.20';
 final user = getIt<UserDetailProvider>();

@@ -6,8 +6,6 @@ import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/utils/common.dart';
-import 'package:student_portal/shared/utils/images.dart';
-import 'package:student_portal/student/screens/evaluation/exam_result_screen.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/screens/attendance/contest_screen.dart';
 import 'package:student_portal/teacher/screens/dashboard/course_card.dart';
@@ -47,11 +45,11 @@ class TeacherDashboard extends StatelessWidget {
                         ),
                         height10(),
                         const Text(
-                          "Saeed Watto",
+                          "Shahid Jamil",
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         const Text(
-                          "saeed211@gmail.com",
+                          "shahid232@gmail.com",
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ]),

@@ -50,29 +50,34 @@ class _ContestScreenState extends State<ContestScreen> with AfterLayoutMixin {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(provider.cList![index].name),
-                                  Text(provider.cList![index].regNo),
-                                  Text(provider.cList![index].courseName),
-                                  Text(
-                                      "BS${provider.cList![index].program}-${provider.cList![index].semester}${provider.cList![index].section}"),
-                                ],
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(provider.cList![index].name),
+                                    Text(provider.cList![index].regNo),
+                                    Text(provider.cList![index].courseName),
+                                    Text(
+                                        "BS${provider.cList![index].program}-${provider.cList![index].semester}${provider.cList![index].section}"),
+                                  ],
+                                ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    provider.cList![index].date,
-                                    style: boldTextStyle,
-                                  ),
-                                  Text(
-                                    getWeekDay(DateTime.parse(
-                                        provider.cList![index].date)),
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      provider.cList![index].date,
+                                      style: boldTextStyle,
+                                    ),
+                                    Text(
+                                      getWeekDay(DateTime.parse(
+                                          provider.cList![index].date)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

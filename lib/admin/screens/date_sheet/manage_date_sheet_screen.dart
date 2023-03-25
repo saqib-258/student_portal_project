@@ -7,10 +7,17 @@ import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/utils/images.dart';
 
-class ManageDateSheetScreen extends StatelessWidget {
-  ManageDateSheetScreen({super.key});
+class ManageDateSheetScreen extends StatefulWidget {
+  const ManageDateSheetScreen({super.key});
+
+  @override
+  State<ManageDateSheetScreen> createState() => _ManageDateSheetScreenState();
+}
+
+class _ManageDateSheetScreenState extends State<ManageDateSheetScreen> {
   File? _excelFile;
-  String? type;
+
+  String? type = "mid";
 
   void _pickExcelFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -21,7 +28,7 @@ class ManageDateSheetScreen extends StatelessWidget {
     if (result != null) {
       _excelFile = File(result.files.single.path!);
       final api = AddDateSheetApi();
-      await api.addDateSheet("mid", _excelFile!);
+      await api.addDateSheet(type!, _excelFile!);
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Datesheet uploaded"),
@@ -55,6 +62,36 @@ class ManageDateSheetScreen extends StatelessWidget {
               )),
             ),
             height30(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: RadioListTile(
+                        title: const Text("Mid"),
+                        value: "mid",
+                        groupValue: type,
+                        onChanged: (val) {
+                          setState(() {
+                            type = val!;
+                          });
+                        }),
+                  ),
+                  Expanded(
+                    child: RadioListTile(
+                        title: const Text("Final"),
+                        value: "final",
+                        groupValue: type,
+                        onChanged: (val) {
+                          setState(() {
+                            type = val!;
+                          });
+                        }),
+                  )
+                ],
+              ),
+            ),
+            height10(),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(fixedSize: const Size(180, 45)),
                 onPressed: () {

@@ -13,7 +13,6 @@ import 'package:student_portal/student/providers/evaluation_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
-import 'package:student_portal/student/screens/teacher_evaluation/question_card.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/student/screens/evaluation/evaluation_screen.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';

@@ -188,7 +188,7 @@ class MainEvaluationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Attendance"),
+          title: const Text("Evaluation"),
         ),
         body: Padding(
             padding: const EdgeInsets.all(20),

@@ -1,7 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
-import 'package:student_portal/student/models/core/evaluation.dart';
-import 'package:student_portal/student/models/helper/teacher_evaluation_helper.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/providers/date_sheet_provider.dart';
 import 'package:student_portal/auth/provider/login_provider.dart';

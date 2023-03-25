@@ -9,3 +9,4 @@ const noticeBoardIcon = "assets/images/noticeboard_icon.png";
 const datesheetIcon = "assets/images/datesheet_icon.png";
 const assessmentIcon = "assets/images/assessment_icon.png";
 const uploadFileImage = "assets/images/upload_file.png";
+const courseAllocation = "assets/images/courseAllocation.png";

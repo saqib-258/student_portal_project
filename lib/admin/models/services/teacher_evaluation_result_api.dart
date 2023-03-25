@@ -15,4 +15,17 @@ class TeacherEvaluationResultApi {
       return (Left(e));
     }
   }
+
+  Future<Either<Exception, String>> getTeacherEvaluation(
+      String session, String teacherId, String courseCode) async {
+    try {
+      String url =
+          '$endPoint/Admin/GetTeacherFeedback?session=$session&teacherId=$teacherId&courseCode=$courseCode';
+      Uri uri = Uri.parse(url);
+      final response = await get(uri);
+      return Right(response.body);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
 }

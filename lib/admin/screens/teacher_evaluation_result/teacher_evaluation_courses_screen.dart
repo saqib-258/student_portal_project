@@ -4,9 +4,11 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
+import 'package:student_portal/admin/screens/teacher_evaluation_result/teacher_evaluation_result_screen.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
+import 'package:student_portal/shared/utils/common.dart';
 
 class TeacherEvaluationCoursesScreen extends StatefulWidget {
   const TeacherEvaluationCoursesScreen({super.key});
@@ -95,11 +97,20 @@ class _TeacherEvaluationCoursesState
                 child: ListView.builder(
                     itemCount: provider.cList!.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(provider.cList![index].teacherName),
-                          subtitle: Text(provider.cList![index].courseName),
-                          trailing: Text(provider.cList![index].courseCode),
+                      return GestureDetector(
+                        onTap: () {
+                          navigate(
+                              context,
+                              TeacherEvaluationResultScreen(
+                                  teacherEvaluationCourse:
+                                      provider.cList![index]));
+                        },
+                        child: Card(
+                          child: ListTile(
+                            title: Text(provider.cList![index].teacherName),
+                            subtitle: Text(provider.cList![index].courseName),
+                            trailing: Text(provider.cList![index].courseCode),
+                          ),
                         ),
                       );
                     }),
