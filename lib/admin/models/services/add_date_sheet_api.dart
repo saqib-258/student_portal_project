@@ -5,7 +5,7 @@ import 'package:student_portal/shared/global.dart';
 
 class AddDateSheetApi {
   String endPoint = "http://$ip/StudentPortal/api";
-  Future<Either<Exception, String>> addDateSheet(String type, File file) async {
+  Future<Either<Exception, bool>> addDateSheet(String type, File file) async {
     try {
       String url = '$endPoint/Admin/AddDateSheet';
       var request = MultipartRequest('POST', Uri.parse(url));
@@ -15,9 +15,10 @@ class AddDateSheetApi {
       request.files.add(newfile);
       var result = await request.send();
       if (result.statusCode == 200) {
-        return const Right("added");
+        return const Right(true);
+      } else {
+        return Left(throw Exception("status code:${result.statusCode}"));
       }
-      return const Right("error");
     } on Exception catch (e) {
       return (Left(e));
     }

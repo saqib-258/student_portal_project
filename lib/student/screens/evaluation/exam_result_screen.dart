@@ -188,9 +188,12 @@ class ResultTabView extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 6,
-                      child: Text(
-                        eList[index].courseName,
-                        style: header2TextStyle,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: Text(
+                          eList[index].courseName,
+                          style: header2TextStyle,
+                        ),
                       ),
                     ),
                     Expanded(

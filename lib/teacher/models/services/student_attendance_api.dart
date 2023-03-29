@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
@@ -8,24 +9,36 @@ class StudentAttendanceApi {
   String endPoint = "http://$ip/StudentPortal/api";
 
   Future<Either<Exception, bool>> markAttendance(
-      List<Map<String, dynamic>> attendanceMap) async {
+      List<Map<String, dynamic>> attendanceMap,
+      String date,
+      int allocationId,
+      List<File> images) async {
     try {
       String url = '$endPoint/Teacher/MarkAttendance';
-      Uri uri = Uri.parse(url);
-      final response = await http.post(uri,
-          body: json.encode(attendanceMap),
-          headers: <String, String>{'Content-Type': 'application/json'});
-      if (response.statusCode == 200) {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields['allocationId'] = allocationId.toString();
+      request.fields['dateTime'] = date.toString();
+      request.fields['attendances'] = jsonEncode(attendanceMap);
+
+      for (int i = 0; i < images.length; i++) {
+        http.MultipartFile newfile =
+            await http.MultipartFile.fromPath('image${i + 1}', images[i].path);
+        request.files.add(newfile);
+      }
+
+      var result = await request.send();
+
+      if (result.statusCode == 200) {
         return const Right(true);
       } else {
-        return Left(throw Exception("status code:${response.statusCode}"));
+        return Left(throw Exception("status code:${result.statusCode}"));
       }
     } on Exception catch (e) {
       return (Left(e));
     }
   }
-  Future<Either<Exception, bool>> acceptContest(
-      int aid) async {
+
+  Future<Either<Exception, bool>> acceptContest(int aid) async {
     try {
       String url = '$endPoint/Teacher/AcceptContest?aid=$aid';
       Uri uri = Uri.parse(url);
@@ -39,8 +52,8 @@ class StudentAttendanceApi {
       return (Left(e));
     }
   }
-  Future<Either<Exception, bool>> rejectContest(
-      int aid) async {
+
+  Future<Either<Exception, bool>> rejectContest(int aid) async {
     try {
       String url = '$endPoint/Teacher/RejectContest?aid=$aid';
       Uri uri = Uri.parse(url);

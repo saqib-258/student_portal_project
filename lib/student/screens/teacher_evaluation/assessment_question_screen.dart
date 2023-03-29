@@ -5,7 +5,6 @@ import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/common_widgets/toast.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/student/models/core/teacher_course.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/screens/teacher_evaluation/question_card.dart';
@@ -13,6 +12,7 @@ import 'package:student_portal/student/screens/teacher_evaluation/question_card.
 class AssessmentQuestionScreen extends StatelessWidget {
   const AssessmentQuestionScreen({super.key, required this.teacherCourse});
   final TeacherCourse teacherCourse;
+
   showLeaveDialog(BuildContext context) {
     showDialog(
         barrierDismissible: false,
@@ -27,7 +27,6 @@ class AssessmentQuestionScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      getIt<TeacherEvaluationProvider>().clearAnswers();
                     },
                     child: const Text(
                       "Yes",
@@ -130,8 +129,8 @@ class AssessmentQuestionScreen extends StatelessWidget {
                                       .feedbackTeacher(teacherCourse.id);
                                   if (isDone != null) {
                                     showToast("Submitted successfully");
-                                    provider.clearAnswers();
                                     teacherCourse.isPending = false;
+                                    provider.notify();
                                     // ignore: use_build_context_synchronously
                                     Navigator.pop(context);
                                   }

@@ -34,7 +34,7 @@ class QuestionCard extends StatelessWidget {
                           option: option.value,
                           onTap: () {
                             question.answer = option.key;
-                            getIt<TeacherEvaluationProvider>().changeAnswer();
+                            getIt<TeacherEvaluationProvider>().notify();
                           },
                           isSelected: option.key == question.answer))
                       .toList()),

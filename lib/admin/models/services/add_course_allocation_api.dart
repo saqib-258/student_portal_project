@@ -5,7 +5,7 @@ import 'package:student_portal/shared/global.dart';
 
 class AddCourseAllocationApi {
   String endPoint = "http://$ip/StudentPortal/api";
-  Future<Either<Exception, String>> addCourseAllocation(File file) async {
+  Future<Either<Exception, bool>> addCourseAllocation(File file) async {
     try {
       String url = '$endPoint/Admin/AddCourseAllocation';
       var request = MultipartRequest('POST', Uri.parse(url));
@@ -14,9 +14,10 @@ class AddCourseAllocationApi {
       request.files.add(newfile);
       var result = await request.send();
       if (result.statusCode == 200) {
-        return const Right("added");
+        return const Right(true);
+      } else {
+        return Left(throw Exception("status code:${result.statusCode}"));
       }
-      return const Right("error");
     } on Exception catch (e) {
       return (Left(e));
     }

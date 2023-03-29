@@ -29,7 +29,6 @@ class _AssessmentScreenState extends State<AssessmentScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
       appBar: AppBar(title: const Text("Teacher Evaluation")),
       body:
           Consumer<TeacherEvaluationProvider>(builder: (context, provider, _) {
@@ -52,9 +51,12 @@ class _AssessmentScreenState extends State<AssessmentScreen>
                             ? () {
                                 navigate(context,
                                     AssessmentQuestionScreen(teacherCourse: c));
+                                getIt<TeacherEvaluationProvider>()
+                                    .getTeacherEvaluationQuestions(c.id);
                               }
                             : null,
                         child: Card(
+                          elevation: 4,
                           color: c.isPending ? null : primaryColor,
                           child: ListTile(
                             title: Text(

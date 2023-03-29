@@ -8,5 +8,6 @@ class Result extends StudentEnrollment {
       this.totalMarks = 0,
       required super.eid,
       required super.name,
-      required super.regNo});
+      required super.regNo,
+      super.profilePhoto});
 }

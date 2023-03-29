@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:student_portal/shared/common_widgets/app_button.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
@@ -10,6 +11,7 @@ import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/teacher/models/core/course.dart';
 import 'package:student_portal/teacher/models/core/course_section.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
+import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
 import 'package:student_portal/teacher/screens/attendance/student_attendance_screen.dart';
 
 class MainAttendanceScreen extends StatelessWidget {
@@ -74,6 +76,42 @@ class MainAttendanceScreen extends StatelessWidget {
                         });
                       }),
                 ),
+                height10(),
+                Consumer<StudentAttendanceProvider>(
+                    builder: (context, provider, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          Radio(
+                            value: "class",
+                            onChanged: (val) {
+                              provider.changeType(val!);
+                            },
+                            groupValue: provider.type,
+                          ),
+                          width10(),
+                          const Text("Class"),
+                        ],
+                      ),
+                      width20(),
+                      Row(
+                        children: [
+                          Radio(
+                            value: "lab",
+                            onChanged: (val) {
+                              provider.changeType(val!);
+                            },
+                            groupValue: provider.type,
+                          ),
+                          width10(),
+                          const Text("Lab"),
+                        ],
+                      ),
+                    ],
+                  );
+                }),
                 height20(),
                 ElevatedButton(
                     style:

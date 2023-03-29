@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:student_portal/shared/glitch/glitch.dart';
 import 'package:student_portal/shared/glitch/no_internet_glitch.dart';
@@ -22,18 +24,18 @@ class StudentAttendanceHelper {
     });
   }
 
-  Future<Either<Glitch, bool?>?> markAttendace(
-      List<Attendance> aList, String date, String type) async {
+  Future<Either<Glitch, bool?>?> markAttendace(List<Attendance> aList,
+      String date, String type, int allocationId, List<File> images) async {
     List<Map<String, dynamic>> attendanceMap = [];
     for (int i = 0; i < aList.length; i++) {
       attendanceMap.add({
         "enrollment_id": aList[i].eid,
         "status": aList[i].status,
-        "date": date,
         "type": type
       });
     }
-    final apiResult = await api.markAttendance(attendanceMap);
+    final apiResult =
+        await api.markAttendance(attendanceMap, date, allocationId, images);
     return apiResult.fold((l) {
       return Left(NoInternetGlitch());
     }, (r) {

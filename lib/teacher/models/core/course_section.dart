@@ -7,8 +7,10 @@ class CourseSection extends Course {
   String section;
   String program;
   int semester;
+  int? allocationId;
   CourseSection(
       {required this.id,
+      this.allocationId,
       required this.program,
       required this.section,
       required this.semester,
@@ -23,6 +25,7 @@ class CourseSection extends Course {
             courseName: e['course_name'],
             section: e['section'],
             program: e['program'],
+            allocationId: e['allocation_id'],
             semester: int.parse(e['semester'].toString())))
         .toList();
     return cList;

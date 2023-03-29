@@ -18,9 +18,11 @@ class TeacherEvaluationApi {
     }
   }
 
-  Future<Either<Exception, String>> getTeacherEvaluationQuestions() async {
+  Future<Either<Exception, String>> getTeacherEvaluationQuestions(
+      int allocationId) async {
     try {
-      String url = '$endPoint/Student/GetTeacherEvaluationQuestions';
+      String url =
+          '$endPoint/Student/GetTeacherEvaluationQuestions?allocationId=$allocationId';
       Uri uri = Uri.parse(url);
       final response = await http.get(uri);
       return Right(response.body);

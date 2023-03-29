@@ -17,22 +17,14 @@ class TeacherEvaluationProvider with ChangeNotifier {
     result = await _helper.getCourseAndTeachers();
     cList = result?.foldRight(cList, (r, previous) => r);
     notifyListeners();
-    getTeacherEvaluationQuestions();
   }
 
-  void clearAnswers() {
-    for (var v in qList!) {
-      v.answer = null;
-    }
+  void notify() {
     notifyListeners();
   }
 
-  void changeAnswer() {
-    notifyListeners();
-  }
-
-  Future<void> getTeacherEvaluationQuestions() async {
-    questionsResult = await _helper.getTeacherEvaluationQuestions();
+  Future<void> getTeacherEvaluationQuestions(int allocationId) async {
+    questionsResult = await _helper.getTeacherEvaluationQuestions(allocationId);
     qList = questionsResult?.foldRight(qList, (r, previous) => r);
     notifyListeners();
   }

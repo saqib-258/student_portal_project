@@ -24,8 +24,8 @@ class TeacherEvaluationHelper {
   }
 
   Future<Either<Glitch, List<TeacherEvaluationQuestion>?>>
-      getTeacherEvaluationQuestions() async {
-    final apiResult = await api.getTeacherEvaluationQuestions();
+      getTeacherEvaluationQuestions(int allocationId) async {
+    final apiResult = await api.getTeacherEvaluationQuestions(allocationId);
     return apiResult.fold((l) {
       return Left(NoInternetGlitch());
     }, (r) {
