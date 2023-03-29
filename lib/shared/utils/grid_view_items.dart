@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:student_portal/admin/models/core/teacher_evaluation_course.dart';
 import 'package:student_portal/admin/screens/course_allocation/add_course_allocation.dart';
 import 'package:student_portal/admin/screens/date_sheet/manage_date_sheet_screen.dart';
-import 'package:student_portal/admin/screens/teacher_evaluation_result/teacher_evaluation_courses_screen.dart';
+import 'package:student_portal/admin/screens/manage_teacher_evaluation/teacher_evaluation_courses_screen.dart';
 import 'package:student_portal/admin/screens/time_table/manage_time_table_screen.dart';
 import 'package:student_portal/student/screens/attendance/attendance_screen.dart';
 import 'package:student_portal/student/screens/evaluation/evaluation_screen.dart';

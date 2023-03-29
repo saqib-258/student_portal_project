@@ -47,6 +47,9 @@ dependencies:
   photo_view: ^0.14.0
   dotted_border: ^2.0.0+3
   image_picker: ^0.8.7
+  syncfusion_flutter_datepicker: ^21.1.37
+  intl: ^0.18.0
+  pie_chart: ^5.3.2
   
   flutter:
     sdk: flutter

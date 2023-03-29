@@ -8,10 +8,10 @@ import 'package:student_portal/shared/glitch/glitch.dart';
 class TeacherEvaluationResultProvider with ChangeNotifier {
   final _helper = TeacherEvaluationResultHelper();
   Either<Glitch, List<TeacherEvaluationCourse>?>? result;
-  Either<Glitch, List<TeacherEvaluationResult>?>? result2;
+  Either<Glitch, TeacherEvaluationResult?>? result2;
 
   List<TeacherEvaluationCourse>? cList;
-  List<TeacherEvaluationResult>? eList;
+  TeacherEvaluationResult? teacherEvaluationResult;
 
   List<String>? sessionsList;
   String? session;
@@ -27,7 +27,8 @@ class TeacherEvaluationResultProvider with ChangeNotifier {
       String teacherId, String courseCode) async {
     result2 = await _helper.getTeacherEvaluationResult(
         session!, teacherId, courseCode);
-    eList = result2?.foldRight(eList, (r, previous) => r);
+    teacherEvaluationResult =
+        result2?.foldRight(teacherEvaluationResult, (r, previous) => r);
     notifyListeners();
   }
 }

@@ -4,7 +4,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
-import 'package:student_portal/admin/screens/teacher_evaluation_result/teacher_evaluation_result_screen.dart';
+import 'package:student_portal/admin/screens/manage_teacher_evaluation/new_teacher_evaluation.dart';
+import 'package:student_portal/admin/screens/manage_teacher_evaluation/teacher_evaluation_result_screen.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
@@ -45,6 +46,14 @@ class _TeacherEvaluationCoursesState
     return Scaffold(
       appBar: AppBar(
         title: const Text("Teacher Evalution"),
+      ),
+      floatingActionButton: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(16), shape: const StadiumBorder()),
+        onPressed: () {
+          navigate(context, NewTeacherEvaluation());
+        },
+        child: const Text("Start New Evaluation"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -95,6 +104,7 @@ class _TeacherEvaluationCoursesState
 
               return Expanded(
                 child: ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 60),
                     itemCount: provider.cList!.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
@@ -115,7 +125,7 @@ class _TeacherEvaluationCoursesState
                       );
                     }),
               );
-            })
+            }),
           ],
         ),
       ),

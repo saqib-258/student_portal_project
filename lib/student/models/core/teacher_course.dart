@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:student_portal/teacher/models/core/course.dart';
 
 class TeacherCourse extends Course {
