@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
       showToast("Please fill all the fieds");
       return;
     }
-    loginProvider.updateLoadingStatus();
+
     await loginProvider.loginUser(
         usernameController.text, passwordController.text);
 
@@ -63,7 +63,6 @@ class LoginScreen extends StatelessWidget {
         }
       }
     });
-    loginProvider.updateLoadingStatus();
   }
 
   @override
@@ -119,29 +118,32 @@ class LoginScreen extends StatelessWidget {
                     height30(),
                     Padding(
                         padding: const EdgeInsets.only(top: 20),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                fixedSize: const Size(200, 50),
-                                backgroundColor: primaryColor,
-                                shape: const StadiumBorder()),
-                            onPressed: loginProvider.isLoading
-                                ? () {}
-                                : () {
-                                    onLoginPressed(context);
-                                  },
-                            child: loginProvider.isLoading
-                                ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 3,
-                                    ),
-                                  )
-                                : Text(
-                                    "Login",
-                                    style: buttonTextStyle,
-                                  ))),
+                        child: Consumer<LoginProvider>(
+                            builder: (context, provider, _) {
+                          return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(200, 50),
+                                  backgroundColor: primaryColor,
+                                  shape: const StadiumBorder()),
+                              onPressed: loginProvider.isLoading
+                                  ? () {}
+                                  : () {
+                                      onLoginPressed(context);
+                                    },
+                              child: loginProvider.isLoading
+                                  ? const SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Login",
+                                      style: buttonTextStyle,
+                                    ));
+                        })),
                     const Spacer(flex: 2),
                   ],
                 ),

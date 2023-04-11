@@ -5,6 +5,7 @@ import 'package:student_portal/student/providers/date_sheet_provider.dart';
 import 'package:student_portal/auth/provider/login_provider.dart';
 import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/providers/evaluation_provider.dart';
+import 'package:student_portal/student/providers/fee_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
@@ -20,21 +21,23 @@ Future<void> setup() async {
   getIt.registerSingleton<LoginProvider>(LoginProvider());
   getIt.registerSingleton<UserDetailProvider>(UserDetailProvider());
   //student
-  getIt.registerSingleton<TimeTableProvider>(TimeTableProvider());
-  getIt.registerSingleton<DateSheetProvider>(DateSheetProvider());
-  getIt.registerSingleton<AttendanceProvider>(AttendanceProvider());
-  getIt.registerSingleton<EvaluationProvider>(EvaluationProvider());
-  getIt.registerSingleton<TeacherEvaluationProvider>(
-      TeacherEvaluationProvider());
-  getIt.registerSingleton<EnrollmentProvider>(EnrollmentProvider());
+  getIt.registerLazySingleton<TimeTableProvider>(() => TimeTableProvider());
+  getIt.registerLazySingleton<DateSheetProvider>(() => DateSheetProvider());
+  getIt.registerLazySingleton<AttendanceProvider>(() => AttendanceProvider());
+  getIt.registerLazySingleton<EvaluationProvider>(() => EvaluationProvider());
+  getIt.registerLazySingleton<TeacherEvaluationProvider>(
+      () => TeacherEvaluationProvider());
+  getIt.registerLazySingleton<FeeProvider>(() => FeeProvider());
+  getIt.registerLazySingleton<EnrollmentProvider>(() => EnrollmentProvider());
   //teacher
-  getIt.registerSingleton<CourseSectionProvider>(CourseSectionProvider());
-  getIt.registerSingleton<StudentAttendanceProvider>(
-      StudentAttendanceProvider());
-  getIt.registerSingleton<MarkResultProvider>(MarkResultProvider());
-  getIt.registerSingleton<StudentEnrollmentProvider>(
-      StudentEnrollmentProvider());
+  getIt.registerLazySingleton<CourseSectionProvider>(
+      () => CourseSectionProvider());
+  getIt.registerLazySingleton<StudentAttendanceProvider>(
+      () => StudentAttendanceProvider());
+  getIt.registerLazySingleton<MarkResultProvider>(() => MarkResultProvider());
+  getIt.registerLazySingleton<StudentEnrollmentProvider>(
+      () => StudentEnrollmentProvider());
   //admin
-  getIt.registerSingleton<TeacherEvaluationResultProvider>(
-      TeacherEvaluationResultProvider());
+  getIt.registerLazySingleton<TeacherEvaluationResultProvider>(
+      () => TeacherEvaluationResultProvider());
 }

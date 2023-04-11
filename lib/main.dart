@@ -10,6 +10,7 @@ import 'package:student_portal/student/providers/date_sheet_provider.dart';
 import 'package:student_portal/auth/provider/login_provider.dart';
 import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/providers/evaluation_provider.dart';
+import 'package:student_portal/student/providers/fee_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
@@ -20,6 +21,7 @@ import 'package:student_portal/teacher/providers/mark_result_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await setup();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: primaryColor, systemNavigationBarColor: backgroundColor));
@@ -37,6 +39,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => getIt<EvaluationProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<TeacherEvaluationProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<EnrollmentProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<FeeProvider>()),
+
       //teacher
       ChangeNotifierProvider(create: (_) => getIt<CourseSectionProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<StudentAttendanceProvider>()),

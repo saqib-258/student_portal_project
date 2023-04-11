@@ -10,15 +10,12 @@ class LoginProvider with ChangeNotifier {
   User? u;
   Either<Glitch, User?>? user;
 
-  void updateLoadingStatus() {
-    isLoading = !isLoading;
-    notifyListeners();
-  }
-
   Future<void> loginUser(String username, String password) async {
+    isLoading = true;
+    notifyListeners();
     user = await _helper.loginUser(username, password);
     u = user!.foldRight(u, (r, previous) => u);
-    await Future.delayed(const Duration(seconds: 1));
+    isLoading = false;
     notifyListeners();
   }
 }
