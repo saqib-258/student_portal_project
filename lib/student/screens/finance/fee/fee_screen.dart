@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/shared/common_widgets/app_button.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
@@ -141,10 +141,10 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
                                         // ignore: use_build_context_synchronously
                                         Navigator.pop(context);
                                         if (provider.challanUrl != null) {
-                                          if (!FlutterDownloader.initialized) {
-                                            await FlutterDownloader.initialize(
-                                                debug: true, ignoreSsl: true);
-                                          }
+                                          // if (!FlutterDownloader.initialized) {
+                                          //   await FlutterDownloader.initialize(
+                                          //       debug: true, ignoreSsl: true);
+                                          // }
                                           // ignore: use_build_context_synchronously
                                           navigate(
                                               context,

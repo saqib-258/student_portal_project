@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
+import 'package:student_portal/notification_service.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/providers/date_sheet_provider.dart';
 import 'package:student_portal/auth/provider/login_provider.dart';
@@ -40,4 +41,6 @@ Future<void> setup() async {
   //admin
   getIt.registerLazySingleton<TeacherEvaluationResultProvider>(
       () => TeacherEvaluationResultProvider());
+  //notification
+  getIt.registerLazySingleton(() => NotificationService());
 }
