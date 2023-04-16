@@ -6,6 +6,7 @@ import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/global.dart';
+import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/models/services/fee_api.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -68,7 +69,7 @@ class _ChallanViewState extends State<ChallanView> {
                 child: RotatedBox(
                   quarterTurns: 1,
                   child: SfPdfViewer.network(
-                    "http://$ip/StudentPortal/ChallanFiles/${widget.challanUrl}",
+                    getFileUrl("ChallanFiles", widget.challanUrl),
                     scrollDirection: PdfScrollDirection.horizontal,
                     canShowScrollHead: false,
                   ),
@@ -82,7 +83,7 @@ class _ChallanViewState extends State<ChallanView> {
                   ),
                   onTap: () async {
                     await FeeApi().downloadFile(
-                        "http://$ip/StudentPortal/ChallanFiles/${widget.challanUrl}",
+                        getFileUrl("ChallanFiles", widget.challanUrl),
                         "challan.pdf");
                     // requestDownload(
                     //     "http://$ip/StudentPortal/ChallanFiles/${widget.challanUrl}",

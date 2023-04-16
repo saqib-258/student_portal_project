@@ -175,8 +175,8 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen>
                         itemBuilder: (context, index) {
                           String url = "";
                           if (provider.sList![index].profilePhoto != null) {
-                            url =
-                                'http://$ip/StudentPortal/ProfileImages/${provider.sList![index].profilePhoto!}';
+                            url = getFileUrl("ProfileImages",
+                                provider.sList![index].profilePhoto!);
                           }
                           return ListTile(
                             leading: provider.sList![index].profilePhoto == null

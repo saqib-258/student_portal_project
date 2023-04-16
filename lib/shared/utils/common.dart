@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/shared/global.dart';
 
 String getWeekDay(DateTime dateTime) {
   if (dateTime.weekday == 1) {
@@ -29,3 +30,5 @@ navigateAndOffAll(BuildContext context, Widget screen) =>
 Future<void> navigateTo(BuildContext context, Widget screen) async =>
     await Navigator.push(
         context, MaterialPageRoute(builder: (context) => screen));
+String getFileUrl(String folderName, String fileName) =>
+    'http://$ip/StudentPortal/$folderName/$fileName';

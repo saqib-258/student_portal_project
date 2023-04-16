@@ -34,9 +34,60 @@ class FeeApi {
     }
   }
 
+  Future<Either<Exception, String>> getChallan() async {
+    try {
+      String url =
+          '$endPoint/Student/GetChallan?regNo=${user.userDetail!.username}';
+      Uri uri = Uri.parse(url);
+      final response = await http.get(uri);
+
+      return Right(response.body);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+
+  Future<Either<Exception, String>> getFeeStatus() async {
+    try {
+      String url =
+          '$endPoint/Student/GetFeeStatus?reg_no=${user.userDetail!.username}';
+      Uri uri = Uri.parse(url);
+      final response = await http.get(uri);
+
+      return Right(response.body);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+
+  Future<Either<Exception, String>> uploadChallan(File file, String id) async {
+    try {
+      String url = '$endPoint/Student/UploadChallan';
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      http.MultipartFile newfile =
+          await http.MultipartFile.fromPath('challan', file.path);
+      request.files.add(newfile);
+      request.fields["id"] = id;
+      var result = await request.send();
+      if (result.statusCode == 200) {
+        var responce = await result.stream.bytesToString();
+        return Right(responce);
+      } else {
+        return Left(throw Exception("status code:${result.statusCode}"));
+      }
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+
   Future<void> downloadFile(String url, String fileName) async {
     try {
       var response = await http.get(Uri.parse(url));
+      if (Platform.isWindows) {
+        await File("..\\challan.pdf").writeAsBytes(response.bodyBytes);
+
+        return;
+      }
       Directory dir = Directory('/storage/emulated/0/Download');
       var localPath = dir.path;
       final savedDir = Directory(localPath);

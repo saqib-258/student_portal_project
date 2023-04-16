@@ -26,7 +26,7 @@ class AttendanceScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return MasonryGridView.count(
+          return GridView.builder(
             itemCount: provider.attendanceList!.length,
             itemBuilder: (context, index) {
               AttendanceModel item = provider.attendanceList![index];
@@ -51,13 +51,15 @@ class AttendanceScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       children: [
-                        Text(
-                          item.courseName,
-                          style: header2TextStyle,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            item.courseName,
+                            style: header2TextStyle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        height20(),
                         AttendanceProgressIndicator(percentage: percentage)
                       ],
                     ),
@@ -65,7 +67,10 @@ class AttendanceScreen extends StatelessWidget {
                 ),
               );
             },
-            crossAxisCount: 2,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              mainAxisExtent: 220,
+            ),
           );
         }),
       ),

@@ -22,7 +22,7 @@ class FeeDetail {
         semesterFee: data['semesterFee'],
         extraCourseFee: data['extraCourseFee'],
         enrolledCoursesCount: data['enrolledCoursesCount'],
-        isChallanGenerated: false, // data['isChallanGenerated'],
+        isChallanGenerated: data['isChallanGenerated'],
         otherFee: data['otherFee']);
   }
 }

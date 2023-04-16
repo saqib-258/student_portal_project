@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
 import 'package:student_portal/notification_service.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
   getIt<NotificationService>().initialize();
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: primaryColor, systemNavigationBarColor: backgroundColor));
   runApp(MultiProvider(
@@ -63,10 +65,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: (context, child) {
-        return ScrollConfiguration(
+        child = ScrollConfiguration(
           behavior: MyBehavior(),
           child: child!,
         );
+        child = EasyLoading.init()(context, child);
+        return child;
       },
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
