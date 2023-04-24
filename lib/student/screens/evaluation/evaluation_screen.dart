@@ -36,7 +36,7 @@ class _EvaluationScreenState extends State<EvaluationScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(title: const Text("Evaluation")),
+      appBar: AppBar(title: const Text("Grading")),
       body: Consumer<EvaluationProvider>(builder: (context, provider, _) {
         if (provider.assignmentQuizMarks == null) {
           return const Center(

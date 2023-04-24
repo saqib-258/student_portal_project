@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
 import 'package:student_portal/shared/glitch/glitch.dart';

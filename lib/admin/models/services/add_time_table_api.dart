@@ -13,6 +13,7 @@ class AddTimeTableApi {
           await MultipartFile.fromPath('timetablefile', file.path);
       request.files.add(newfile);
       var result = await request.send();
+      // print(await result.stream.bytesToString());
       if (result.statusCode == 200) {
         return const Right(true);
       } else {

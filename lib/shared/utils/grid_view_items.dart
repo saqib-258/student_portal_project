@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:student_portal/admin/models/core/teacher_evaluation_course.dart';
 import 'package:student_portal/admin/screens/course_allocation/add_course_allocation.dart';
 import 'package:student_portal/admin/screens/date_sheet/manage_date_sheet_screen.dart';
+import 'package:student_portal/admin/screens/fee/student_fee_screen.dart';
+import 'package:student_portal/admin/screens/fine/student_fine_screen.dart';
 import 'package:student_portal/admin/screens/manage_teacher_evaluation/teacher_evaluation_courses_screen.dart';
 import 'package:student_portal/admin/screens/time_table/manage_time_table_screen.dart';
 import 'package:student_portal/student/screens/attendance/attendance_screen.dart';
@@ -23,7 +24,7 @@ List<GridItem> studentDashboarGridItems = [
       image: attendanceImage,
       screen: const AttendanceScreen()),
   GridItem(
-      title: "Evaluation",
+      title: "Grading",
       image: evaluationImage,
       screen: const EvaluationScreen()),
   GridItem(
@@ -40,15 +41,20 @@ List<GridItem> adminDashboardGridItems = [
   GridItem(
       title: "Manage Datesheet",
       image: datesheetImage,
-      screen: ManageDateSheetScreen()),
+      screen: const ManageDateSheetScreen()),
   GridItem(
       title: "Teacher Evaluation",
       image: assessmentImage,
       screen: const TeacherEvaluationCoursesScreen()),
   GridItem(
       title: "Add Course Allocation",
-      image: courseAllocation,
-      screen: AddCourseAllocation())
+      image: courseAllocationImage,
+      screen: AddCourseAllocation()),
+  GridItem(
+      title: "Student Fee",
+      image: financeImage,
+      screen: const StudentFeeScreen()),
+  GridItem(title: "Fine", image: fineImage, screen: const StudentFineScreen())
 ];
 
 class AttendanceGridItem {
@@ -58,10 +64,3 @@ class AttendanceGridItem {
   AttendanceGridItem(
       {required this.title, required this.absents, required this.presents});
 }
-
-List<AttendanceGridItem> attendanceGridItems = [
-  AttendanceGridItem(title: "Compiler Construction", absents: 5, presents: 31),
-  AttendanceGridItem(title: "Information Security", absents: 8, presents: 30),
-  AttendanceGridItem(title: "Final Year Project-1", absents: 2, presents: 25),
-  AttendanceGridItem(title: "Mobile App Development", absents: 0, presents: 30)
-];
