@@ -2,12 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
 import 'package:student_portal/shared/global.dart';
 
-class StudentFeeApi {
+class StudentFinancialAssistanceRequestsApi {
   String endPoint = "http://$ip/StudentPortal/api";
 
-  Future<Either<Exception, String>> getFeeStudents() async {
+  Future<Either<Exception, String>> getRequests() async {
     try {
-      String url = '$endPoint/Admin/GetFeeStudents';
+      String url = '$endPoint/Admin/GetFinancialAssistanceRequests';
       Uri uri = Uri.parse(url);
       final response = await get(uri);
       return Right(response.body);

@@ -1,5 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:student_portal/admin/models/services/student_fee_detail_api.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
@@ -128,7 +130,24 @@ class _FeeStatusDetailScreenState extends State<StudentFeeStatusDetailScreen> {
                     "Status", widget.model.status ? "Done" : "Pending"),
                 height20(),
                 ElevatedButton(
-                    onPressed: widget.model.status ? null : () {},
+                    onPressed: widget.model.status
+                        ? () {}
+                        : widget.model.challanImage == null
+                            ? null
+                            : () async {
+                                EasyLoading.show(
+                                    indicator:
+                                        const CircularProgressIndicator());
+                                await StudentFeeDetailApi.approveInstallment(
+                                    widget.model.id);
+
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+                                // ignore: use_build_context_synchronously
+                                widget.model.status = true;
+                                setState(() {});
+                                EasyLoading.dismiss();
+                              },
                     child: Text(widget.model.status ? "Approved" : "Approve"))
               ],
             ),
