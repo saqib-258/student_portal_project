@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:student_portal/admin/screens/financial_assistance/financial_assistnace_request_screens.dart';
+import 'package:student_portal/admin/screens/financial_assistance/student_financial_assistnace_request_screens.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/global.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/shared/utils/grid_view_items.dart';
 
@@ -82,7 +81,8 @@ class AdminDashboard extends StatelessWidget {
               return ListTile(
                 onTap: () {
                   Navigator.pop(context);
-                  navigate(context, const FinancialAssistanceRequestScreen());
+                  navigate(
+                      context, const StudentFinancialAssistanceRequestScreen());
                 },
                 leading: const Icon(FontAwesomeIcons.circleDollarToSlot),
                 title: const Text("Finanial Assistance Requests"),
@@ -123,8 +123,8 @@ class AdminDashboard extends StatelessWidget {
                 child: SvgPicture.asset(
                   "assets/images/menu_icon.svg",
                   color: textColor,
-                  height: 32,
-                  width: 32,
+                  height: 28,
+                  width: 28,
                 ),
               ),
             );

@@ -115,8 +115,8 @@ class TeacherDashboard extends StatelessWidget {
                 child: SvgPicture.asset(
                   "assets/images/menu_icon.svg",
                   color: textColor,
-                  height: 32,
-                  width: 32,
+                  height: 28,
+                  width: 28,
                 ),
               ),
             );

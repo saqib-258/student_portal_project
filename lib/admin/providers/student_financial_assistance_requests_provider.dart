@@ -7,12 +7,20 @@ import 'package:student_portal/shared/glitch/glitch.dart';
 class StudentFinancialAssistanceRequestsProvider with ChangeNotifier {
   final _helper = StudentFinancialAssistanceRequestsHelper();
   Either<Glitch, List<StudentFinancialAssistanceRequest>?>? result;
+  Either<Glitch, List<String>?>? result2;
 
   List<StudentFinancialAssistanceRequest>? sList;
+  List<String>? iList;
 
   Future<void> getRequests() async {
     result = await _helper.getRequests();
     sList = result?.foldRight(sList, (r, previous) => r);
+    notifyListeners();
+  }
+
+  Future<void> getImages(int id) async {
+    result2 = await _helper.getImages(id);
+    iList = result2?.foldRight(iList, (r, previous) => r);
     notifyListeners();
   }
 }

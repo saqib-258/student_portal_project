@@ -108,10 +108,7 @@ class _StudentFeeScreenState extends State<StudentFeeScreen>
                     .toList();
                 if (filteredList.isEmpty) {
                   return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text("No data found"),
-                    ),
+                    child: Text("No data found"),
                   );
                 }
                 return RefreshIndicator(
@@ -135,7 +132,7 @@ class _StudentFeeScreenState extends State<StudentFeeScreen>
   }
 }
 
-class _StudentFeeCard extends StatelessWidget {
+class _StudentFeeCard extends StatefulWidget {
   const _StudentFeeCard({
     required this.model,
   });
@@ -143,14 +140,19 @@ class _StudentFeeCard extends StatelessWidget {
   final StudentFee model;
 
   @override
+  State<_StudentFeeCard> createState() => _StudentFeeCardState();
+}
+
+class _StudentFeeCardState extends State<_StudentFeeCard> {
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
-        onTap: () {
-          navigate(context, StudentFeeStatusScreen(regNo: model.regNo));
+        onTap: () async {
+          navigate(context, StudentFeeStatusScreen(regNo: widget.model.regNo));
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -160,15 +162,16 @@ class _StudentFeeCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.name),
-                  Text(model.regNo),
-                  Text('BS${model.program}-${model.semester}${model.section}')
+                  Text(widget.model.name),
+                  Text(widget.model.regNo),
+                  Text(
+                      'BS${widget.model.program}-${widget.model.semester}${widget.model.section}')
                 ],
               ),
               Text(
-                model.isPending ? "Pending" : "Approved",
+                widget.model.isPending ? "Pending" : "Approved",
                 style: boldTextStyle.copyWith(
-                    color: model.isPending ? Colors.red : primaryColor),
+                    color: widget.model.isPending ? Colors.red : primaryColor),
               )
             ],
           ),

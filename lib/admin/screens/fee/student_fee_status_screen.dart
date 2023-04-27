@@ -8,6 +8,7 @@ import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/common.dart';
+import 'package:student_portal/student/models/core/challan_detail.dart';
 
 class StudentFeeStatusScreen extends StatefulWidget {
   const StudentFeeStatusScreen({super.key, required this.regNo});
@@ -45,30 +46,43 @@ class _FeeStatusState extends State<StudentFeeStatusScreen>
             padding: const EdgeInsets.all(8),
             itemCount: provider.cList!.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  navigate(
-                      context,
-                      StudentFeeStatusDetailScreen(
-                          model: provider.cList![index]));
-                },
-                child: Card(
-                    elevation: 3,
-                    child: ListTile(
-                      title: Text(
-                          'Installment No ${provider.cList![index].installmentNo}'),
-                      subtitle: Text('${provider.cList![index].amount} RS'),
-                      trailing: Text(
-                        provider.cList![index].status ? "Done" : "Pending",
-                        style: boldTextStyle.copyWith(
-                            color: provider.cList![index].status
-                                ? primaryColor
-                                : Colors.red),
-                      ),
-                    )),
+              return _InstallmentCard(
+                model: provider.cList![index],
               );
             });
       }),
+    );
+  }
+}
+
+class _InstallmentCard extends StatefulWidget {
+  const _InstallmentCard({required this.model});
+  final ChallanDetail model;
+
+  @override
+  State<_InstallmentCard> createState() => _InstallmentCardState();
+}
+
+class _InstallmentCardState extends State<_InstallmentCard> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () async {
+        await navigate(
+            context, StudentFeeStatusDetailScreen(model: widget.model));
+        setState(() {});
+      },
+      child: Card(
+          elevation: 3,
+          child: ListTile(
+            title: Text('Installment No ${widget.model.installmentNo}'),
+            subtitle: Text('${widget.model.amount} RS'),
+            trailing: Text(
+              widget.model.status ? "Done" : "Pending",
+              style: boldTextStyle.copyWith(
+                  color: widget.model.status ? primaryColor : Colors.red),
+            ),
+          )),
     );
   }
 }

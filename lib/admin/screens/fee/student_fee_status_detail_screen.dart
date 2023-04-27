@@ -2,7 +2,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:student_portal/admin/models/services/student_fee_detail_api.dart';
+import 'package:student_portal/shared/common_widgets/app_confirm_dialog.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
+import 'package:student_portal/shared/common_widgets/toast.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/photo_viewer_screen.dart';
@@ -134,19 +136,37 @@ class _FeeStatusDetailScreenState extends State<StudentFeeStatusDetailScreen> {
                         ? () {}
                         : widget.model.challanImage == null
                             ? null
-                            : () async {
-                                EasyLoading.show(
-                                    indicator:
-                                        const CircularProgressIndicator());
-                                await StudentFeeDetailApi.approveInstallment(
-                                    widget.model.id);
+                            : () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AppConfirmDialog(
+                                        title:
+                                            "Do you want to approve fee challan?",
+                                        onConfirm: () async {
+                                          Navigator.pop(context);
+                                          EasyLoading.show(
+                                              indicator:
+                                                  const CircularProgressIndicator());
+                                          var result = await StudentFeeDetailApi
+                                              .approveInstallment(
+                                                  widget.model.id);
+                                          await Future.delayed(
+                                              const Duration(seconds: 1));
+                                          result.fold((l) {
+                                            showToast("Something went wrong");
+                                          }, (r) {
+                                            if (r == true) {
+                                              showToast(
+                                                  "Fee challan approved successfully");
+                                              widget.model.status = true;
+                                              setState(() {});
+                                            } else {
+                                              showToast("Something went wrong");
+                                            }
+                                          });
 
-                                await Future.delayed(
-                                    const Duration(seconds: 1));
-                                // ignore: use_build_context_synchronously
-                                widget.model.status = true;
-                                setState(() {});
-                                EasyLoading.dismiss();
+                                          EasyLoading.dismiss();
+                                        }));
                               },
                     child: Text(widget.model.status ? "Approved" : "Approve"))
               ],
