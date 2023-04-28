@@ -3,9 +3,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
+import 'package:student_portal/shared/common_widgets/images_picker_bottom_sheet.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/global.dart';
 import 'package:student_portal/shared/photo_viewer_screen.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/models/core/challan_detail.dart';
@@ -49,7 +49,7 @@ class _FeeStatusDetailScreenState extends State<FeeStatusDetailScreen> {
     showModalBottomSheet(
       context: context2,
       builder: (BuildContext context) {
-        return _ImagePickerBottomSheet(
+        return ImagePickerBottomSheet(
           onImageSourceSelected: (ImageSource imageSource) async {
             XFile? imageFile = await ImagePicker()
                 .pickImage(source: imageSource, imageQuality: 50);
@@ -161,75 +161,5 @@ class _FeeStatusDetailScreenState extends State<FeeStatusDetailScreen> {
             ),
           ),
         ));
-  }
-}
-
-class _ImagePickerBottomSheet extends StatelessWidget {
-  final Function(ImageSource) onImageSourceSelected;
-
-  const _ImagePickerBottomSheet({required this.onImageSourceSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 130,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  onImageSourceSelected(ImageSource.gallery);
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Spacer(
-                        flex: 3,
-                      ),
-                      Expanded(flex: 2, child: Icon(Icons.image)),
-                      Expanded(flex: 2, child: Text('Gallery')),
-                      Spacer(
-                        flex: 3,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Divider(
-                height: 16,
-              ),
-              InkWell(
-                onTap: () {
-                  onImageSourceSelected(ImageSource.camera);
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Spacer(
-                        flex: 3,
-                      ),
-                      Expanded(flex: 2, child: Icon(Icons.camera_alt)),
-                      Expanded(flex: 2, child: Text('Camera')),
-                      Spacer(
-                        flex: 3,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }

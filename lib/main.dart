@@ -16,6 +16,8 @@ import 'package:student_portal/auth/provider/login_provider.dart';
 import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/providers/evaluation_provider.dart';
 import 'package:student_portal/student/providers/fee_provider.dart';
+import 'package:student_portal/student/providers/financial_assistance_provider.dart';
+import 'package:student_portal/student/providers/fine_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
@@ -47,6 +49,9 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => getIt<TeacherEvaluationProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<EnrollmentProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<FeeProvider>()),
+      ChangeNotifierProvider(
+          create: (_) => getIt<FinancialAssistanceProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<FineProvider>()),
 
       //teacher
       ChangeNotifierProvider(create: (_) => getIt<CourseSectionProvider>()),

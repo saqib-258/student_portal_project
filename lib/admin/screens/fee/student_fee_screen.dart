@@ -155,7 +155,7 @@ class _StudentFeeCardState extends State<_StudentFeeCard> {
           navigate(context, StudentFeeStatusScreen(regNo: widget.model.regNo));
         },
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -10,6 +10,8 @@ import 'package:student_portal/auth/provider/login_provider.dart';
 import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/providers/evaluation_provider.dart';
 import 'package:student_portal/student/providers/fee_provider.dart';
+import 'package:student_portal/student/providers/financial_assistance_provider.dart';
+import 'package:student_portal/student/providers/fine_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
@@ -33,6 +35,10 @@ Future<void> setup() async {
       () => TeacherEvaluationProvider());
   getIt.registerLazySingleton<FeeProvider>(() => FeeProvider());
   getIt.registerLazySingleton<EnrollmentProvider>(() => EnrollmentProvider());
+  getIt.registerLazySingleton<FinancialAssistanceProvider>(
+      () => FinancialAssistanceProvider());
+  getIt.registerLazySingleton<FineProvider>(() => FineProvider());
+
   //teacher
   getIt.registerLazySingleton<CourseSectionProvider>(
       () => CourseSectionProvider());
