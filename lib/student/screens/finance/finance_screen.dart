@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/utils/common.dart';
@@ -53,7 +52,7 @@ class FinanceScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(flex: 6),
+            const Spacer(flex: 8),
             Text(
               "What would you like to do?",
               style: mediumTextStyle.copyWith(fontWeight: FontWeight.bold),
@@ -72,7 +71,7 @@ class FinanceScreen extends StatelessWidget {
                 onTap: () {
               navigate(context, RequestFinancialAssistanceScreen());
             }),
-            const Spacer(flex: 8),
+            const Spacer(flex: 10),
           ],
         ),
       ),

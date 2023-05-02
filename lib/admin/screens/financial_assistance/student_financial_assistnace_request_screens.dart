@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_portal/admin/models/core/student_financial_assistance_request.dart';
 import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
 import 'package:student_portal/admin/screens/financial_assistance/assistance_request_detail_screen.dart';
 import 'package:student_portal/shared/common_widgets/app_filter_button.dart';
+import 'package:student_portal/shared/common_widgets/student_detail_card.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
@@ -103,74 +103,33 @@ class _FinancialAssistanceRequestScreenState
                 );
               }
               return ListView.builder(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(8),
                   itemCount: filteredList.length,
                   itemBuilder: (context, index) {
                     final model = filteredList[index];
-                    return _FianancialAssistanceRequestCard(model: model);
+                    return StudentDetailCard(
+                      model: model,
+                      trailing: Text(
+                        model.status == null
+                            ? "Pending"
+                            : model.status!
+                                ? "Accepted"
+                                : "Rejected",
+                        style: boldTextStyle.copyWith(
+                            color: model.status == null
+                                ? Colors.red
+                                : primaryColor),
+                      ),
+                      onTap: () async {
+                        await navigate(context,
+                            AssistanceRequestDetailScreen(model: model));
+                        setState(() {});
+                      },
+                    );
                   });
             }),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _FianancialAssistanceRequestCard extends StatefulWidget {
-  const _FianancialAssistanceRequestCard({
-    required this.model,
-  });
-
-  final StudentFinancialAssistanceRequest model;
-
-  @override
-  State<_FianancialAssistanceRequestCard> createState() =>
-      _FianancialAssistanceRequestCardState();
-}
-
-class _FianancialAssistanceRequestCardState
-    extends State<_FianancialAssistanceRequestCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(6),
-        onTap: () async {
-          await navigate(
-              context, AssistanceRequestDetailScreen(model: widget.model));
-          setState(() {});
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.model.name),
-                  Text(widget.model.regNo),
-                  Text(
-                      'BS${widget.model.program}-${widget.model.semester}${widget.model.section}')
-                ],
-              ),
-              Text(
-                widget.model.status == null
-                    ? "Pending"
-                    : widget.model.status!
-                        ? "Accepted"
-                        : "Rejected",
-                style: boldTextStyle.copyWith(
-                    color: widget.model.status == null
-                        ? Colors.red
-                        : primaryColor),
-              )
-            ],
-          ),
-        ),
       ),
     );
   }

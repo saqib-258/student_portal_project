@@ -3,10 +3,10 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_portal/admin/models/core/student_fee.dart';
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/screens/fee/student_fee_status_screen.dart';
 import 'package:student_portal/shared/common_widgets/app_filter_button.dart';
+import 'package:student_portal/shared/common_widgets/student_detail_card.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
@@ -120,62 +120,26 @@ class _StudentFeeScreenState extends State<StudentFeeScreen>
                       itemCount: filteredList.length,
                       itemBuilder: (context, index) {
                         final model = filteredList[index];
-                        return _StudentFeeCard(model: model);
+                        return StudentDetailCard(
+                            model: model,
+                            trailing: Text(
+                              model.isPending ? "Pending" : "Approved",
+                              style: boldTextStyle.copyWith(
+                                  color: model.isPending
+                                      ? Colors.red
+                                      : primaryColor),
+                            ),
+                            onTap: () async {
+                              navigate(context,
+                                  StudentFeeStatusScreen(regNo: model.regNo));
+                            });
+                        ;
                       }),
                 );
               },
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _StudentFeeCard extends StatefulWidget {
-  const _StudentFeeCard({
-    required this.model,
-  });
-
-  final StudentFee model;
-
-  @override
-  State<_StudentFeeCard> createState() => _StudentFeeCardState();
-}
-
-class _StudentFeeCardState extends State<_StudentFeeCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(6),
-        onTap: () async {
-          navigate(context, StudentFeeStatusScreen(regNo: widget.model.regNo));
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.model.name),
-                  Text(widget.model.regNo),
-                  Text(
-                      'BS${widget.model.program}-${widget.model.semester}${widget.model.section}')
-                ],
-              ),
-              Text(
-                widget.model.isPending ? "Pending" : "Approved",
-                style: boldTextStyle.copyWith(
-                    color: widget.model.isPending ? Colors.red : primaryColor),
-              )
-            ],
-          ),
-        ),
       ),
     );
   }

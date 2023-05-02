@@ -1,15 +1,18 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/common_widgets/images_picker_bottom_sheet.dart';
+import 'package:student_portal/shared/common_widgets/upload_image_screen.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/photo_viewer_screen.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/models/core/challan_detail.dart';
-import 'package:student_portal/student/screens/finance/fee/upload_challan_screen.dart';
+import 'package:student_portal/student/providers/fee_provider.dart';
 
 class FeeStatusDetailScreen extends StatefulWidget {
   const FeeStatusDetailScreen({super.key, required this.model});
@@ -57,9 +60,18 @@ class _FeeStatusDetailScreenState extends State<FeeStatusDetailScreen> {
               // ignore: use_build_context_synchronously
               await navigate(
                   context2,
-                  UploadChallanScreen(
+                  UploadImageScreen(
                     photo: File(imageFile.path),
-                    id: widget.model.id,
+                    onUpload: () async {
+                      EasyLoading.show(
+                          indicator: const CircularProgressIndicator());
+                      await getIt<FeeProvider>()
+                          .uploadChallan(File(imageFile.path), widget.model.id);
+                      await Future.delayed(const Duration(seconds: 1));
+                      // ignore: use_build_context_synchronously
+                      Navigator.pop(context2);
+                      EasyLoading.dismiss();
+                    },
                   ));
               setState(() {});
             }

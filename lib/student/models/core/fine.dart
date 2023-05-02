@@ -5,7 +5,7 @@ class Fine {
   String date;
   int amount;
   String description;
-  String? status;
+  bool? status;
   String? receipt;
 
   Fine({

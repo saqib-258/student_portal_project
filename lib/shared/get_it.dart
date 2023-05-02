@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:student_portal/admin/providers/student_fee_detail_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
+import 'package:student_portal/admin/providers/student_fine_provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
 import 'package:student_portal/notification_service.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
@@ -55,6 +56,7 @@ Future<void> setup() async {
       () => StudentFeeDetailProvider());
   getIt.registerLazySingleton<StudentFinancialAssistanceRequestsProvider>(
       () => StudentFinancialAssistanceRequestsProvider());
+  getIt.registerLazySingleton<StudentFineProvider>(() => StudentFineProvider());
 
   //notification
   getIt.registerLazySingleton(() => NotificationService());

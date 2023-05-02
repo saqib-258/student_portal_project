@@ -8,7 +8,7 @@ class StudentFinancialAssistanceRequest {
   String program;
   int semester;
   String section;
-  String profilePhoto;
+  String? profilePhoto;
   bool? status;
 
   StudentFinancialAssistanceRequest(
