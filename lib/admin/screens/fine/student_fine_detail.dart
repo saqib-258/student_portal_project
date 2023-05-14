@@ -2,81 +2,29 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:provider/provider.dart';
-import 'package:student_portal/admin/models/core/student_financial_assistance_request.dart';
-import 'package:student_portal/admin/models/services/student_financial_assistance_requests_api.dart';
-import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
+import 'package:student_portal/admin/models/core/student_fine.dart';
+import 'package:student_portal/admin/models/services/student_fine_api.dart';
 import 'package:student_portal/shared/common_widgets/app_confirm_dialog.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/common_widgets/toast.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/photo_viewer_screen.dart';
 import 'package:student_portal/shared/utils/common.dart';
 
-class AssistanceRequestDetailScreen extends StatefulWidget {
-  const AssistanceRequestDetailScreen({super.key, required this.model});
-  final StudentFinancialAssistanceRequest model;
+class StudentFineDetail extends StatefulWidget {
+  const StudentFineDetail({super.key, required this.model});
+  final StudentFine model;
 
   @override
-  State<AssistanceRequestDetailScreen> createState() =>
+  State<StudentFineDetail> createState() =>
       _AssistanceRequestDetailScreenState();
 }
 
-class _AssistanceRequestDetailScreenState
-    extends State<AssistanceRequestDetailScreen> with AfterLayoutMixin {
+class _AssistanceRequestDetailScreenState extends State<StudentFineDetail>
+    with AfterLayoutMixin {
   @override
-  FutureOr<void> afterFirstLayout(BuildContext context) {
-    getIt<StudentFinancialAssistanceRequestsProvider>()
-        .getImages(widget.model.id);
-  }
-
-  Widget _getImagesRow() {
-    return Consumer<StudentFinancialAssistanceRequestsProvider>(
-        builder: (context, provider, _) {
-      if (provider.iList == null) {
-        return const SizedBox.shrink();
-      }
-      if (provider.iList!.isEmpty) {
-        return const Text("No images");
-      }
-      return SizedBox(
-        height: 100,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: provider.iList!.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Container(
-                    height: 60,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          navigate(
-                              context,
-                              PhotoViewerScreen(
-                                  photo: getFileUrl("FinancialAssistanceImages",
-                                      provider.iList![index])));
-                        },
-                        child: Image.network(
-                          getFileUrl("FinancialAssistanceImages",
-                              provider.iList![index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )),
-              );
-            }),
-      );
-    });
-  }
+  FutureOr<void> afterFirstLayout(BuildContext context) {}
 
   Widget _buttonRow(BuildContext context) {
     return Padding(
@@ -91,21 +39,19 @@ class _AssistanceRequestDetailScreenState
                   showDialog(
                       context: context,
                       builder: (context) => AppConfirmDialog(
-                          title: "Do you want to reject request?",
+                          title: "Do you want to reject fine?",
                           onConfirm: () async {
                             Navigator.pop(context);
                             EasyLoading.show(
                                 indicator: const CircularProgressIndicator());
-                            var result =
-                                await StudentFinancialAssistanceRequestsApi
-                                    .rejectFinancialAssistanceRequest(
-                                        widget.model.id);
+                            var result = await StudentFineApi.rejectFine(
+                                widget.model.id);
                             await Future.delayed(const Duration(seconds: 1));
                             result.fold((l) {
                               showToast("Something went wrong");
                             }, (r) {
                               if (r == true) {
-                                showToast("Request Rejected Successfully");
+                                showToast("Fine Rejected Successfully");
                                 widget.model.status = false;
                                 setState(() {});
                               } else {
@@ -131,21 +77,19 @@ class _AssistanceRequestDetailScreenState
                   showDialog(
                       context: context,
                       builder: (context) => AppConfirmDialog(
-                          title: "Do you want to accept request?",
+                          title: "Do you want to accept fine?",
                           onConfirm: () async {
                             Navigator.pop(context);
                             EasyLoading.show(
                                 indicator: const CircularProgressIndicator());
-                            var result =
-                                await StudentFinancialAssistanceRequestsApi
-                                    .acceptFinancialAssistanceRequest(
-                                        widget.model.id);
+                            var result = await StudentFineApi.acceptFine(
+                                widget.model.id);
                             await Future.delayed(const Duration(seconds: 1));
                             result.fold((l) {
                               showToast("Something went wrong");
                             }, (r) {
                               if (r == true) {
-                                showToast("Request Accepted Successfully");
+                                showToast("Fine Accepted Successfully");
                                 widget.model.status = true;
                                 setState(() {});
                               } else {
@@ -173,7 +117,7 @@ class _AssistanceRequestDetailScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Request Detail"),
+        title: const Text("Fine Detail"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -200,7 +144,7 @@ class _AssistanceRequestDetailScreenState
                           'BS${widget.model.program}-${widget.model.semester}${widget.model.section}'),
                       height10(),
                       Text(
-                        "Description:",
+                        "Reason:",
                         style: boldTextStyle,
                       ),
                       height5(),
@@ -225,10 +169,36 @@ class _AssistanceRequestDetailScreenState
                               : "Rejected"),
                       height10(),
                       Text(
-                        "Images:",
+                        "Receipt:",
                         style: boldTextStyle,
                       ),
-                      _getImagesRow(),
+                      height5(),
+                      widget.model.receipt == null
+                          ? const Text("Not yet uploaded")
+                          : Container(
+                              height: 80,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    navigate(
+                                        context,
+                                        PhotoViewerScreen(
+                                            photo: getFileUrl(
+                                                "FineReceiptImages",
+                                                widget.model.receipt!)));
+                                  },
+                                  child: Image.network(
+                                    getFileUrl("FineReceiptImages",
+                                        widget.model.receipt!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
                       height5(),
                     ],
                   ),
@@ -236,7 +206,7 @@ class _AssistanceRequestDetailScreenState
               ),
             ),
             height10(),
-            widget.model.status != null
+            widget.model.status == true || widget.model.receipt != null
                 ? const SizedBox.shrink()
                 : _buttonRow(context)
           ]),

@@ -21,6 +21,9 @@ String getWeekDay(DateTime dateTime) {
 
 navigate(BuildContext context, Widget screen) =>
     Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+navigateAndRepalce(BuildContext context, Widget screen) =>
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => screen));
 navigateAndOffAll(BuildContext context, Widget screen) =>
     Navigator.pushAndRemoveUntil(
         context,

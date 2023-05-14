@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
@@ -68,13 +69,12 @@ class _ContestScreenState extends State<ContestScreen> with AfterLayoutMixin {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      provider.cList![index].date,
+                                      provider.cList![index].date.split(',')[0],
                                       style: boldTextStyle,
                                     ),
-                                    Text(
-                                      getWeekDay(DateTime.parse(
-                                          provider.cList![index].date)),
-                                    ),
+                                    Text(getWeekDay(
+                                        DateFormat("dd-MM-yyyy,hh:mm a").parse(
+                                            provider.cList![index].date))),
                                   ],
                                 ),
                               ),

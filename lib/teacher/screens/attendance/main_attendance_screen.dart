@@ -57,7 +57,7 @@ class MainAttendanceScreen extends StatelessWidget {
                 height10(),
                 DropdownButtonHideUnderline(
                   child: DropdownButton2(
-                      hint: const Text("Select discipline"),
+                      hint: const Text("Select section"),
                       buttonDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(

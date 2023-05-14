@@ -60,7 +60,7 @@ class MainEvaluationScreen extends StatelessWidget {
                 DropdownButtonHideUnderline(
                   child: DropdownButton2(
                       isExpanded: true,
-                      hint: const Text("Select Discipline"),
+                      hint: const Text("Select section"),
                       buttonDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:student_portal/admin/providers/get_students_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_detail_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
@@ -66,6 +67,7 @@ Future<void> main() async {
       ChangeNotifierProvider(
           create: (_) => getIt<StudentFinancialAssistanceRequestsProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<StudentFineProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<GetStudentsProvider>()),
     ],
     child: const MyApp(),
   ));

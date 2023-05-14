@@ -38,26 +38,32 @@ class _FineScreenState extends State<FineScreen> with AfterLayoutMixin {
       appBar: AppBar(
         title: const Text("Fine"),
       ),
-      body: Consumer<FineProvider>(builder: (context, provider, _) {
-        if (provider.fList == null) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (provider.fList!.isEmpty) {
-          return const Center(
-            child: Text("No fine yet"),
-          );
-        }
-        return ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemCount: provider.fList!.length,
-            itemBuilder: (context, index) {
-              return _FineCard(
-                model: provider.fList![index],
+      body: Column(
+        children: [
+          Consumer<FineProvider>(builder: (context, provider, _) {
+            if (provider.fList == null) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            });
-      }),
+            }
+            if (provider.fList!.isEmpty) {
+              return const Center(
+                child: Text("No fine yet"),
+              );
+            }
+            return Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: provider.fList!.length,
+                  itemBuilder: (context, index) {
+                    return _FineCard(
+                      model: provider.fList![index],
+                    );
+                  }),
+            );
+          }),
+        ],
+      ),
     );
   }
 }
@@ -180,59 +186,66 @@ class _FineCardState extends State<_FineCard> {
               ),
               height10(),
               widget.model.receipt == null
-                  ? GestureDetector(
-                      onTap: () {
-                        _pickImage(context);
-                      },
-                      child: DottedBorder(
-                        color: primaryColor,
-                        radius: const Radius.circular(8),
-                        borderType: BorderType.RRect,
-                        child: SizedBox(
-                          height: 80,
-                          width: 100,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.camera_alt),
-                                height5(),
-                                Text(
-                                  "Upload Receipt",
-                                  style: smallTextStyle,
-                                ),
-                              ],
-                            ),
+                  ? DottedBorder(
+                      color: primaryColor,
+                      radius: const Radius.circular(8),
+                      borderType: BorderType.RRect,
+                      child: SizedBox(
+                        height: 80,
+                        width: 100,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.camera_alt),
+                              height5(),
+                              Text(
+                                "No image selected",
+                                textAlign: TextAlign.center,
+                                style: smallTextStyle,
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     )
-                  : Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Container(
-                          height: 80,
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: GestureDetector(
-                              onTap: () {
-                                navigate(
-                                    context,
-                                    PhotoViewerScreen(
-                                        photo: getFileUrl("FineReceiptImages",
-                                            widget.model.receipt!)));
-                              },
-                              child: Image.network(
-                                getFileUrl(
-                                    "FineReceiptImages", widget.model.receipt!),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )),
-                    ),
+                  : Container(
+                      height: 80,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: GestureDetector(
+                          onTap: () {
+                            navigate(
+                                context,
+                                PhotoViewerScreen(
+                                    photo: getFileUrl("FineReceiptImages",
+                                        widget.model.receipt!)));
+                          },
+                          child: Image.network(
+                            getFileUrl(
+                                "FineReceiptImages", widget.model.receipt!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )),
+              height5(),
+              ElevatedButton(
+                  onPressed:
+                      widget.model.status == null || !widget.model.status!
+                          ? () {
+                              _pickImage(context);
+                            }
+                          : null,
+                  child: Text(
+                    widget.model.receipt == null
+                        ? "Upload receipt"
+                        : "Update receipt",
+                    style: header3TextStyle,
+                  ))
             ],
           ),
         ));

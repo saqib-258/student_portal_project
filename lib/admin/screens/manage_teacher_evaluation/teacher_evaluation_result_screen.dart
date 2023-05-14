@@ -97,7 +97,7 @@ class _TeacherEvaluationResultScreenState
                                 child: Row(
                                   children: [
                                     Expanded(
-                                        flex: 5,
+                                        flex: 3,
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
@@ -108,7 +108,25 @@ class _TeacherEvaluationResultScreenState
                                         )),
                                     Expanded(
                                         child: Text(
-                                      '${provider.teacherEvaluationResult!.questionResult[index].percentage} %',
+                                      provider
+                                                  .teacherEvaluationResult!
+                                                  .questionResult[index]
+                                                  .percentage >
+                                              80
+                                          ? 'Excellent'
+                                          : provider
+                                                      .teacherEvaluationResult!
+                                                      .questionResult[index]
+                                                      .percentage >
+                                                  60
+                                              ? "Good"
+                                              : provider
+                                                          .teacherEvaluationResult!
+                                                          .questionResult[index]
+                                                          .percentage >
+                                                      30
+                                                  ? "Average"
+                                                  : "Poor",
                                       style: const TextStyle(
                                           color: primaryColor,
                                           fontWeight: FontWeight.bold),

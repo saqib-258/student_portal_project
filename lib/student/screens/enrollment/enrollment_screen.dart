@@ -139,7 +139,7 @@ class _EnrollmentScreenState extends State<EnrollmentScreen>
                                     height10(),
                                     DropdownButtonHideUnderline(
                                       child: DropdownButton2(
-                                          hint: const Text("Select discipline"),
+                                          hint: const Text("Select section"),
                                           buttonDecoration: BoxDecoration(
                                             border: Border.all(
                                                 color: Colors.black26),

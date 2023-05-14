@@ -9,10 +9,10 @@ class StudentFine {
   final int semester;
   final String? profilePhoto;
   final String date;
-  final String? receipt;
+  String? receipt;
   final int amount;
   final String description;
-  final bool? status;
+  bool? status;
 
   StudentFine({
     required this.id,

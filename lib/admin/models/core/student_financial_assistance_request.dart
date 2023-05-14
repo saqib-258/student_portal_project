@@ -10,6 +10,7 @@ class StudentFinancialAssistanceRequest {
   String section;
   String? profilePhoto;
   bool? status;
+  String date;
 
   StudentFinancialAssistanceRequest(
       {required this.name,
@@ -20,6 +21,7 @@ class StudentFinancialAssistanceRequest {
       required this.semester,
       required this.section,
       required this.profilePhoto,
+      required this.date,
       required this.status});
 
   factory StudentFinancialAssistanceRequest.fromMap(Map<String, dynamic> map) {
@@ -33,6 +35,7 @@ class StudentFinancialAssistanceRequest {
       section: map['section'],
       profilePhoto: map['profile_photo'],
       status: map['status'],
+      date: map['date'],
     );
   }
   static List<StudentFinancialAssistanceRequest> fromJson(String jsonString) {

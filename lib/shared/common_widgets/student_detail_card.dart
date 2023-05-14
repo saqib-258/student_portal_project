@@ -6,13 +6,10 @@ import 'package:student_portal/shared/utils/common.dart';
 
 class StudentDetailCard extends StatelessWidget {
   const StudentDetailCard(
-      {super.key,
-      required this.model,
-      required this.trailing,
-      required this.onTap});
+      {super.key, required this.model, required this.trailing, this.onTap});
 
   final dynamic model;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Widget trailing;
 
   @override
