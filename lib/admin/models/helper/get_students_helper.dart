@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:student_portal/admin/models/core/student_detail_model.dart';
-import 'package:student_portal/admin/models/core/student_fee.dart';
 import 'package:student_portal/admin/models/services/get_students_api.dart';
-import 'package:student_portal/admin/models/services/student_fee_api.dart';
 import 'package:student_portal/shared/glitch/glitch.dart';
 import 'package:student_portal/shared/glitch/no_internet_glitch.dart';
 

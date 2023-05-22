@@ -5,7 +5,6 @@ import 'package:student_portal/shared/common_widgets/app_button.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/global.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/models/services/fee_api.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';

@@ -14,6 +14,7 @@ import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
 import 'package:student_portal/teacher/screens/attendance/student_attendance_screen.dart';
 
+// ignore: must_be_immutable
 class MainAttendanceScreen extends StatelessWidget {
   MainAttendanceScreen({super.key, required this.course});
   final Course course;

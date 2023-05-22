@@ -11,6 +11,7 @@ import 'package:student_portal/teacher/models/core/course_section.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/screens/evaluation/student_evaluation_screen.dart';
 
+// ignore: must_be_immutable
 class MainEvaluationScreen extends StatelessWidget {
   MainEvaluationScreen({super.key, required this.course});
   final Course course;
