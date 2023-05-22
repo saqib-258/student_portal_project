@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:student_portal/admin/models/services/add_course_allocation_api.dart';
-import 'package:student_portal/admin/models/services/add_time_table_api.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/utils/images.dart';
 
+// ignore: must_be_immutable
 class AddCourseAllocation extends StatelessWidget {
   AddCourseAllocation({super.key});
   File? _excelFile;

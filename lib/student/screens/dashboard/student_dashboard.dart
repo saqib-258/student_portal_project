@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/shared/common_widgets/background_decoration.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
@@ -33,29 +35,44 @@ class StudentDashboard extends StatelessWidget {
               child: DrawerHeader(
                 decoration: const BoxDecoration(color: primaryColor),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircleAvatar(
-                          backgroundColor: Colors.white38,
-                          radius: 32,
-                          backgroundImage: AssetImage(
-                            "assets/images/avatar-icon.png",
-                          ),
-                        ),
-                        height10(),
-                        const Text(
-                          "Saqib Hussain",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        const Text(
-                          "2019-Arid-3099",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ]),
-                ),
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Consumer<UserDetailProvider>(
+                        builder: (context, provider, _) {
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            provider.userDetail!.profilePhoto == null
+                                ? const CircleAvatar(
+                                    backgroundColor: Colors.white38,
+                                    radius: 32,
+                                    backgroundImage: AssetImage(
+                                      "assets/images/avatar-icon.png",
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    backgroundColor: Colors.white38,
+                                    radius: 32,
+                                    backgroundImage: NetworkImage(getFileUrl(
+                                        "ProfileImages",
+                                        provider.userDetail!.profilePhoto!))),
+                            height10(),
+                            Text(
+                              provider.userDetail == null
+                                  ? ""
+                                  : provider.userDetail!.name,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 18),
+                            ),
+                            Text(
+                              provider.userDetail == null
+                                  ? ""
+                                  : provider.userDetail!.username,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 12),
+                            )
+                          ]);
+                    })),
               ),
             ),
             ListTile(

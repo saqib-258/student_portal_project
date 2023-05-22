@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
+
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
+import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/utils/common.dart';
-import 'package:student_portal/teacher/providers/course_section_provider.dart';
+import 'package:student_portal/shared/utils/grid_view_items.dart';
 import 'package:student_portal/teacher/screens/attendance/contest_screen.dart';
-import 'package:student_portal/teacher/screens/dashboard/course_card.dart';
 
 class TeacherDashboard extends StatelessWidget {
   const TeacherDashboard({super.key});
@@ -44,14 +46,28 @@ class TeacherDashboard extends StatelessWidget {
                           ),
                         ),
                         height10(),
-                        const Text(
-                          "Shahid Jamil",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        const Text(
-                          "shahid232@gmail.com",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
+                        Consumer<UserDetailProvider>(
+                            builder: (context, provider, _) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                provider.userDetail == null
+                                    ? ""
+                                    : provider.userDetail!.name,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                              Text(
+                                provider.userDetail == null
+                                    ? ""
+                                    : provider.userDetail!.username,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              ),
+                            ],
+                          );
+                        }),
                       ]),
                 ),
               ),
@@ -124,21 +140,43 @@ class TeacherDashboard extends StatelessWidget {
           title: const Text("Dashboard"),
         ),
         drawer: buildDrawer(context),
-        body: Consumer<CourseSectionProvider>(
-            builder: (context, provider, child) {
-          if (provider.courses == null) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return ListView.builder(
-                itemCount: provider.courses!.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    child: CourseCard(course: provider.courses![index]),
-                  );
-                });
-          }
-        }));
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: GridView.builder(
+              itemCount: teacherDashboardGridItems.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0),
+              itemBuilder: (context, index) {
+                GridItem item = teacherDashboardGridItems[index];
+                return GestureDetector(
+                  onTap: () {
+                    navigate(context, item.screen);
+                  },
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          item.image,
+                          height: 56,
+                          width: 56,
+                        ),
+                        height20(),
+                        Text(
+                          item.title,
+                          textAlign: TextAlign.center,
+                          style: header3TextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+        ));
   }
 }

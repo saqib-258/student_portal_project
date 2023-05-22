@@ -24,7 +24,7 @@ class EnrollmentScreen extends StatefulWidget {
 class _EnrollmentScreenState extends State<EnrollmentScreen>
     with AfterLayoutMixin {
   @override
-  FutureOr<void> afterFirstLayout(BuildContext context) {
+  Future<FutureOr<void>> afterFirstLayout(BuildContext context) async {
     final provider = getIt<EnrollmentProvider>();
     provider.getEnrollmentCourses();
   }
@@ -39,159 +39,164 @@ class _EnrollmentScreenState extends State<EnrollmentScreen>
         if (provider.cList == null) {
           return const Center(child: CircularProgressIndicator());
         }
-        return Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Course",
-                            style: boldTextStyle,
-                          ),
-                          const Spacer(
-                            flex: 5,
-                          ),
-                          Text(
-                            "Credit hours",
-                            style: boldTextStyle,
-                          ),
-                          const Spacer(),
-                          Text(
-                            "Status",
-                            style: boldTextStyle,
-                          )
-                        ],
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 8),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Course",
+                              style: boldTextStyle,
+                            ),
+                            const Spacer(
+                              flex: 5,
+                            ),
+                            Text(
+                              "Credit hours",
+                              style: boldTextStyle,
+                            ),
+                            const Spacer(),
+                            Text(
+                              "Status",
+                              style: boldTextStyle,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    const Divider(thickness: 1.2),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        "Regular courses",
-                        style: header3TextStyle.copyWith(
-                            fontWeight: FontWeight.w600),
+                      const Divider(thickness: 1.2),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          "Regular courses",
+                          style: header3TextStyle.copyWith(
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          itemCount: provider.cList!.regularCourses.length,
-                          itemBuilder: (context, index) {
-                            RegularCourses r =
-                                provider.cList!.regularCourses[index];
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: EnrollmentCourseRow(
-                                    courseCode: r.courseCode,
-                                    courseName: r.courseName,
-                                    creditHours: r.creditHours,
-                                    isSelected: true),
-                              ),
-                            );
-                          }),
-                    ),
-                    height5(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        "Dropped courses",
-                        style: header3TextStyle.copyWith(
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          itemCount: provider.cList!.failedCourses.length,
-                          itemBuilder: (context, index) {
-                            FailedCourses r =
-                                provider.cList!.failedCourses[index];
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    EnrollmentCourseRow(
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: provider.cList!.regularCourses.length,
+                            itemBuilder: (context, index) {
+                              RegularCourses r =
+                                  provider.cList!.regularCourses[index];
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: EnrollmentCourseRow(
                                       courseCode: r.courseCode,
                                       courseName: r.courseName,
                                       creditHours: r.creditHours,
-                                      isSelected: r.isSelected,
-                                      onValueChanged: (val) {
-                                        r.isSelected = val;
-                                        provider.notify();
-                                      },
-                                    ),
-                                    height10(),
-                                    DropdownButtonHideUnderline(
-                                      child: DropdownButton2(
-                                          hint: const Text("Select section"),
-                                          buttonDecoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.black26),
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          dropdownDecoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          value: r.selectedVal,
-                                          items: r.sections
-                                              .map((e) => DropdownMenuItem(
-                                                  value: '${e.id}-${e.section}',
-                                                  child: Text(
-                                                      '${e.program}-${e.semester}${e.section}')))
-                                              .toList(),
-                                          onChanged: r.isSelected
-                                              ? (val) {
-                                                  r.selectedVal =
-                                                      val as String?;
-                                                  provider.notify();
-                                                }
-                                              : null),
-                                    ),
-                                  ],
+                                      isSelected: true),
                                 ),
-                              ),
-                            );
-                          }),
-                    )
-                  ],
+                              );
+                            }),
+                      ),
+                      height5(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Text(
+                          "Failed / Remaining courses",
+                          style: header3TextStyle.copyWith(
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: provider.cList!.failedCourses.length,
+                            itemBuilder: (context, index) {
+                              FailedCourses r =
+                                  provider.cList!.failedCourses[index];
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      EnrollmentCourseRow(
+                                        courseCode: r.courseCode,
+                                        courseName: r.courseName,
+                                        creditHours: r.creditHours,
+                                        isSelected: r.isSelected,
+                                        onValueChanged: r.sections.isEmpty
+                                            ? null
+                                            : (val) {
+                                                r.isSelected = val;
+                                                provider.notify();
+                                              },
+                                      ),
+                                      height10(),
+                                      DropdownButtonHideUnderline(
+                                        child: DropdownButton2(
+                                            hint: const Text("Select section"),
+                                            buttonDecoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.black26),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            dropdownDecoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            value: r.selectedVal,
+                                            items: r.sections
+                                                .map((e) => DropdownMenuItem(
+                                                    value:
+                                                        '${e.id}-${e.section}-${e.program}',
+                                                    child: Text(
+                                                        '${e.program}-${e.semester}${e.section}')))
+                                                .toList(),
+                                            onChanged: r.isSelected
+                                                ? (val) {
+                                                    r.selectedVal =
+                                                        val as String?;
+                                                    provider.notify();
+                                                  }
+                                                : null),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: AppButton(
-                    child: Text(
-                      "Enroll",
-                      style: textColorStyle,
-                    ),
-                    onTap: () async {
-                      bool? isDone = await provider.enrollCourses();
-                      if (isDone != null) {
-                        showToast("Enrolled Courses Successfully");
-                        // ignore: use_build_context_synchronously
-                        navigateAndOffAll(context, const StudentDashboard());
-                      }
-                    }),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: AppButton(
+                      child: Text(
+                        "Enroll",
+                        style: textColorStyle,
+                      ),
+                      onTap: () async {
+                        bool? isDone = await provider.enrollCourses();
+                        if (isDone != null) {
+                          showToast("Enrolled Courses Successfully");
+                          // ignore: use_build_context_synchronously
+                          navigateAndOffAll(context, const StudentDashboard());
+                        }
+                      }),
+                )
+              ],
+            ),
           ),
         );
       }),

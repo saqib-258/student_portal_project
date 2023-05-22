@@ -133,7 +133,6 @@ class _StudentFeeScreenState extends State<StudentFeeScreen>
                               navigate(context,
                                   StudentFeeStatusScreen(regNo: model.regNo));
                             });
-                        ;
                       }),
                 );
               },

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:student_portal/admin/providers/add_notice_board_provider.dart';
 import 'package:student_portal/admin/providers/get_students_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_detail_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
@@ -17,6 +18,7 @@ import 'package:student_portal/student/providers/fine_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
+import 'package:student_portal/teacher/providers/course_advisor_provider.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/providers/mark_result_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
@@ -49,6 +51,8 @@ Future<void> setup() async {
   getIt.registerLazySingleton<MarkResultProvider>(() => MarkResultProvider());
   getIt.registerLazySingleton<StudentEnrollmentProvider>(
       () => StudentEnrollmentProvider());
+  getIt.registerLazySingleton<CourseAdvisorProvider>(
+      () => CourseAdvisorProvider());
   //admin
   getIt.registerLazySingleton<TeacherEvaluationResultProvider>(
       () => TeacherEvaluationResultProvider());
@@ -59,6 +63,9 @@ Future<void> setup() async {
       () => StudentFinancialAssistanceRequestsProvider());
   getIt.registerLazySingleton<StudentFineProvider>(() => StudentFineProvider());
   getIt.registerLazySingleton<GetStudentsProvider>(() => GetStudentsProvider());
+
+  getIt.registerLazySingleton<AddNoticeBoardProvider>(
+      () => AddNoticeBoardProvider());
 
   //notification
   getIt.registerLazySingleton(() => NotificationService());

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 
 class AppTextField extends StatefulWidget {
-  AppTextField(this.label,
+  const AppTextField(this.label,
       {super.key, this.controller, required this.icon, this.isObscure});
   final String label;
-  bool? isObscure;
+  final bool? isObscure;
   final IconData icon;
   final TextEditingController? controller;
   @override
@@ -13,6 +13,13 @@ class AppTextField extends StatefulWidget {
 }
 
 class _AppTextFieldState extends State<AppTextField> {
+  late bool? isObscure;
+  @override
+  void initState() {
+    isObscure = widget.isObscure;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,7 +30,7 @@ class _AppTextFieldState extends State<AppTextField> {
         padding: const EdgeInsets.all(4.0),
         child: TextFormField(
           controller: widget.controller,
-          obscureText: widget.isObscure == null ? false : widget.isObscure!,
+          obscureText: isObscure == null ? false : isObscure!,
           cursorColor: primaryColor,
           decoration: InputDecoration(
               prefixIcon: Icon(
@@ -32,16 +39,16 @@ class _AppTextFieldState extends State<AppTextField> {
               ),
               border: InputBorder.none,
               hintText: widget.label,
-              suffixIcon: widget.isObscure == null
+              suffixIcon: isObscure == null
                   ? null
                   : InkResponse(
                       radius: 20,
                       onTap: () {
                         setState(() {
-                          widget.isObscure = !widget.isObscure!;
+                          isObscure = !isObscure!;
                         });
                       },
-                      child: Icon(widget.isObscure!
+                      child: Icon(isObscure!
                           ? Icons.visibility
                           : Icons.visibility_off))),
         ),

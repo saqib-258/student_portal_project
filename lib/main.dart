@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:student_portal/admin/providers/add_notice_board_provider.dart';
 import 'package:student_portal/admin/providers/get_students_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_detail_provider.dart';
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
@@ -25,6 +26,7 @@ import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/student/screens/evaluation/evaluation_screen.dart';
+import 'package:student_portal/teacher/providers/course_advisor_provider.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/providers/mark_result_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
@@ -59,6 +61,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (_) => getIt<CourseSectionProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<StudentAttendanceProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<MarkResultProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<CourseAdvisorProvider>()),
+
       //admin
       ChangeNotifierProvider(
           create: (_) => getIt<TeacherEvaluationResultProvider>()),
@@ -68,6 +72,7 @@ Future<void> main() async {
           create: (_) => getIt<StudentFinancialAssistanceRequestsProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<StudentFineProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<GetStudentsProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<AddNoticeBoardProvider>()),
     ],
     child: const MyApp(),
   ));

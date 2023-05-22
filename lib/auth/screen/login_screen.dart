@@ -17,7 +17,7 @@ import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/screens/dashboard/student_dashboard.dart';
 import 'package:student_portal/student/screens/enrollment/enrollment_screen.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
-import 'package:student_portal/teacher/screens/dashboard/dashboard_screen.dart';
+import 'package:student_portal/teacher/screens/dashboard/teacher_dashboard.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});

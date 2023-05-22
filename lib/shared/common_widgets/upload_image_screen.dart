@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 
+// ignore: must_be_immutable
 class UploadImageScreen extends StatelessWidget {
   UploadImageScreen({super.key, required this.photo, required this.onUpload});
   final File photo;
