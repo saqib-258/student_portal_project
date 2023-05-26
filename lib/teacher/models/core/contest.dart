@@ -21,7 +21,6 @@ class Contest extends CourseSection {
       required this.status});
 
   static List<Contest> fromJson(String body) {
-    print(body);
     List<Contest> cList = [];
     cList = (jsonDecode(body) as List<dynamic>)
         .map((e) => Contest(
