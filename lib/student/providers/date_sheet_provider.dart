@@ -12,6 +12,9 @@ class DateSheetProvider with ChangeNotifier {
   Future<void> getDateSheet() async {
     result = await _helper.getDateSheet();
     dateSheet = result?.foldRight(dateSheet, (r, previous) => r);
+    if (dateSheet == null) {
+      dateSheet!.type = "empty";
+    }
     notifyListeners();
   }
 }

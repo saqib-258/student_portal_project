@@ -10,7 +10,7 @@ class CourseAdvisorProvider with ChangeNotifier {
 
   List<CourseAdvisor>? cList;
 
-  Future<void> getCourseSection() async {
+  Future<void> getCourseAdvisor() async {
     result = await _helper.getCourseAdvisor();
     cList = result?.foldRight(cList, (r, previou) => r);
 

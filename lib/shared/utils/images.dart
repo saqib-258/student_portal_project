@@ -11,6 +11,8 @@ const assessmentIcon = "assets/images/assessment_icon.png";
 const uploadFileImage = "assets/images/upload_file.png";
 const courseAllocationImage = "assets/images/courseAllocation.png";
 const courseAdvisorImage = "assets/images/advisor.png";
+const peerEvaluationImage = "assets/images/peer-evaluation.png";
+
 const manageCourseImage = "assets/images/manage-course.png";
 
 const fineImage = "assets/images/fine.png";

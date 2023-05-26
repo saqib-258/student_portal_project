@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/student/models/core/teacher_evaluation_question.dart';
-import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/screens/teacher_evaluation/option_button.dart';
 
 class QuestionCard extends StatelessWidget {
-  const QuestionCard({required this.qNo, required this.question, super.key});
+  const QuestionCard(
+      {required this.qNo,
+      required this.question,
+      super.key,
+      required this.provider});
   final TeacherEvaluationQuestion question;
   final int qNo;
+  final provider;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class QuestionCard extends StatelessWidget {
                           option: option.value,
                           onTap: () {
                             question.answer = option.key;
-                            getIt<TeacherEvaluationProvider>().notify();
+                            provider.notify();
                           },
                           isSelected: option.key == question.answer))
                       .toList()),

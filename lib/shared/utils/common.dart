@@ -35,3 +35,7 @@ Future<void> navigateTo(BuildContext context, Widget screen) async =>
         context, MaterialPageRoute(builder: (context) => screen));
 String getFileUrl(String folderName, String fileName) =>
     'http://$ip/StudentPortal/$folderName/$fileName';
+String convertDateFormat(String date) {
+  List<String> parts = date.split("-");
+  return "${parts[2]}-${parts[1]}-${parts[0]}";
+}

@@ -157,21 +157,18 @@ class ResultTabView extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              flex: 5,
               child: Text(
                 "Course",
                 style: header2TextStyle.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             Expanded(
-              flex: 5,
               child: Text(
                 "Obt. marks",
                 style: header2TextStyle.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             Expanded(
-              flex: 4,
               child: Text(
                 "Total marks",
                 style: header2TextStyle.copyWith(fontWeight: FontWeight.w600),
@@ -184,33 +181,30 @@ class ResultTabView extends StatelessWidget {
           child: ListView.builder(
               itemCount: eList.length,
               itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
                         child: Text(
                           eList[index].courseName,
                           style: header2TextStyle,
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: Text(
-                        eList[index].obtainedmarks.toString(),
-                        style: header2TextStyle,
+                      Expanded(
+                        child: Text(
+                          eList[index].obtainedmarks.toString(),
+                          style: header2TextStyle,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                        eList[index].totalMarks.toString(),
-                        style: header2TextStyle,
-                      ),
-                    )
-                  ],
+                      Expanded(
+                        child: Text(
+                          eList[index].totalMarks.toString(),
+                          style: header2TextStyle,
+                        ),
+                      )
+                    ],
+                  ),
                 );
               }),
         ),

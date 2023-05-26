@@ -6,11 +6,16 @@ import 'package:student_portal/shared/utils/common.dart';
 
 class StudentDetailCard extends StatelessWidget {
   const StudentDetailCard(
-      {super.key, required this.model, required this.trailing, this.onTap});
+      {super.key,
+      required this.model,
+      required this.trailing,
+      this.onTap,
+      this.showSection = true});
 
   final dynamic model;
   final VoidCallback? onTap;
   final Widget trailing;
+  final bool showSection;
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +65,13 @@ class StudentDetailCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(model.regNo),
-                          Text(
-                              'BS${model.program}-${model.semester}${model.section}')
+                          showSection
+                              ? Text(
+                                  'BS${model.program}-${model.semester}${model.section}')
+                              : const SizedBox.shrink()
                         ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

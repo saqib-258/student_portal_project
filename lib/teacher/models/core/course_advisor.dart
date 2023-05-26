@@ -25,34 +25,34 @@ class CourseAdvisor {
     }
   }
   static List<CourseAdvisor> fromJson(String jsonString) {
-    final data = jsonDecode(jsonString);
-    return List<CourseAdvisor>.from(
-        data.map((fineMap) => CourseAdvisor.fromMap(fineMap)));
+    return (jsonDecode(jsonString) as List<dynamic>)
+        .map((map) => CourseAdvisor.fromMap(map))
+        .toList();
   }
 }
 
 class SList {
-  String? studentname;
-  String? regno;
-  String? profilepic;
+  String? name;
+  String? regNo;
+  String? profilePhoto;
   double? cgpa;
   List<Course?>? regularcourses;
   List<Course?>? failedcourses;
   List<Course?>? remainingcourses;
 
   SList(
-      {this.studentname,
-      this.regno,
-      this.profilepic,
+      {this.name,
+      this.regNo,
+      this.profilePhoto,
       this.cgpa,
       this.regularcourses,
       this.failedcourses,
       this.remainingcourses});
 
   SList.fromJson(Map<String, dynamic> json) {
-    studentname = json['student_name'];
-    regno = json['reg_no'];
-    profilepic = json['profile_pic'];
+    name = json['student_name'];
+    regNo = json['reg_no'];
+    profilePhoto = json['profile_pic'];
     cgpa = json['cgpa'];
     if (json['regular_courses'] != null) {
       regularcourses = <Course>[];

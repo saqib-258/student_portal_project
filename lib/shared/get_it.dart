@@ -15,12 +15,16 @@ import 'package:student_portal/student/providers/evaluation_provider.dart';
 import 'package:student_portal/student/providers/fee_provider.dart';
 import 'package:student_portal/student/providers/financial_assistance_provider.dart';
 import 'package:student_portal/student/providers/fine_provider.dart';
+import 'package:student_portal/student/providers/get_advice_provider.dart';
+import 'package:student_portal/student/providers/noticeboard_provider.dart';
+import 'package:student_portal/student/providers/peer_evaluation_result_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/teacher/providers/course_advisor_provider.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/providers/mark_result_provider.dart';
+import 'package:student_portal/teacher/providers/peer_evaluation_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
 import 'package:student_portal/teacher/providers/student_enrollment_provider.dart';
 
@@ -42,6 +46,10 @@ Future<void> setup() async {
   getIt.registerLazySingleton<FinancialAssistanceProvider>(
       () => FinancialAssistanceProvider());
   getIt.registerLazySingleton<FineProvider>(() => FineProvider());
+  getIt.registerLazySingleton<GetAdviceProvider>(() => GetAdviceProvider());
+  getIt.registerLazySingleton<NoticeboardProvider>(() => NoticeboardProvider());
+  getIt.registerLazySingleton<PeerEvaluationResultProvider>(
+      () => PeerEvaluationResultProvider());
 
   //teacher
   getIt.registerLazySingleton<CourseSectionProvider>(
@@ -53,6 +61,8 @@ Future<void> setup() async {
       () => StudentEnrollmentProvider());
   getIt.registerLazySingleton<CourseAdvisorProvider>(
       () => CourseAdvisorProvider());
+  getIt.registerLazySingleton<PeerEvaluationProvider>(
+      () => PeerEvaluationProvider());
   //admin
   getIt.registerLazySingleton<TeacherEvaluationResultProvider>(
       () => TeacherEvaluationResultProvider());

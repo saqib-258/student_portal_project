@@ -28,7 +28,7 @@ class _TeacherEvaluationCoursesState
   Future<FutureOr<void>> afterFirstLayout(BuildContext context) async {}
 
   List<DropdownMenuItem> getItems() {
-    provider.sessionsList = ["FALL2022", "SPRING2022"];
+    provider.sessionsList = ["FALL2019", "SPRING2020", "FALL2020"];
     List<DropdownMenuItem> dList = [];
     dList = provider.sessionsList!
         .map((e) => DropdownMenuItem(value: e, child: Text(e)))

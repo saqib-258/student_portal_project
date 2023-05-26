@@ -21,6 +21,9 @@ import 'package:student_portal/student/providers/evaluation_provider.dart';
 import 'package:student_portal/student/providers/fee_provider.dart';
 import 'package:student_portal/student/providers/financial_assistance_provider.dart';
 import 'package:student_portal/student/providers/fine_provider.dart';
+import 'package:student_portal/student/providers/get_advice_provider.dart';
+import 'package:student_portal/student/providers/noticeboard_provider.dart';
+import 'package:student_portal/student/providers/peer_evaluation_result_provider.dart';
 import 'package:student_portal/student/providers/teacher_evaluation_provider.dart';
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
@@ -29,6 +32,7 @@ import 'package:student_portal/student/screens/evaluation/evaluation_screen.dart
 import 'package:student_portal/teacher/providers/course_advisor_provider.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/providers/mark_result_provider.dart';
+import 'package:student_portal/teacher/providers/peer_evaluation_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
 
 Future<void> main() async {
@@ -56,12 +60,17 @@ Future<void> main() async {
       ChangeNotifierProvider(
           create: (_) => getIt<FinancialAssistanceProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<FineProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<GetAdviceProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<NoticeboardProvider>()),
+      ChangeNotifierProvider(
+          create: (_) => getIt<PeerEvaluationResultProvider>()),
 
       //teacher
       ChangeNotifierProvider(create: (_) => getIt<CourseSectionProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<StudentAttendanceProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<MarkResultProvider>()),
       ChangeNotifierProvider(create: (_) => getIt<CourseAdvisorProvider>()),
+      ChangeNotifierProvider(create: (_) => getIt<PeerEvaluationProvider>()),
 
       //admin
       ChangeNotifierProvider(

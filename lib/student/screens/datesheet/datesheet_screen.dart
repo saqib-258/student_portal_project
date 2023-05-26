@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
+import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/models/core/date_sheet.dart';
 import 'package:student_portal/student/providers/date_sheet_provider.dart';
 
@@ -34,8 +35,12 @@ class _DatesheetScreenState extends State<DatesheetScreen>
           child: Consumer<DateSheetProvider>(builder: (context, provider, _) {
             if (provider.dateSheet == null) {
               return const Center(child: CircularProgressIndicator());
+            } else if (provider.dateSheet!.type == "empty") {
+              return const Center(child: Text("Datesheet not uploaded yet"));
             } else {
               List<DateSheetDetail> dList = provider.dateSheet!.detail;
+              dList.sort((a, b) => DateTime.parse(convertDateFormat(a.date))
+                  .compareTo(DateTime.parse(convertDateFormat(b.date))));
               return Column(
                 children: [
                   if (provider.dateSheet!.type == "mid")
@@ -54,25 +59,69 @@ class _DatesheetScreenState extends State<DatesheetScreen>
                         style: header1TextStyle,
                       ),
                     ),
+                  height10(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Course",
+                              style: boldTextStyle,
+                            )),
+                        Expanded(
+                            flex: 4,
+                            child: Text(
+                              "Date",
+                              style: boldTextStyle,
+                            )),
+                        Expanded(
+                            flex: 3,
+                            child: Text(
+                              "Time",
+                              style: boldTextStyle,
+                            )),
+                      ],
+                    ),
+                  ),
                   Expanded(
                     child: ListView.builder(
                         itemCount: dList.length,
                         itemBuilder: (context, index) {
                           return Card(
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
                                 children: [
-                                  Text(dList[index].courseName),
-                                  height5(),
-                                  Text(
-                                    dList[index].date,
-                                    style: header3TextStyle,
+                                  Expanded(
+                                      flex: 2,
+                                      child: Text(dList[index].courseName)),
+                                  width10(),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          dList[index].date,
+                                          style: header3TextStyle,
+                                        ),
+                                        Text(getWeekDay(DateTime.parse(
+                                                convertDateFormat(
+                                                    dList[index].date)))
+                                            .substring(0, 3))
+                                      ],
+                                    ),
                                   ),
-                                  height5(),
-                                  Text(
-                                    dList[index].time,
-                                    style: header3TextStyle,
+                                  width10(),
+                                  Expanded(
+                                    flex: 4,
+                                    child: Text(
+                                      dList[index].time,
+                                      style: header3TextStyle,
+                                    ),
                                   ),
                                 ],
                               ),

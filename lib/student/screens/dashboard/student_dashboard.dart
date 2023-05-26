@@ -7,6 +7,9 @@ import 'package:student_portal/shared/common_widgets/background_decoration.dart'
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/utils/grid_view_items.dart';
+import 'package:student_portal/student/screens/course_advisor/advises.dart';
+import 'package:student_portal/student/screens/noticeboard/noticeboard_screen.dart';
+import 'package:student_portal/student/screens/peer_evaluation/peer_evaluation_teachers_screen.dart';
 import 'package:student_portal/student/screens/teacher_evaluation/assessment_screen.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/shared/utils/images.dart';
@@ -92,14 +95,19 @@ class StudentDashboard extends StatelessWidget {
               );
             }),
             buildDivider(),
-            ListTile(
-              onTap: () {},
-              leading: Image.asset(
-                noticeBoardIcon,
-                width: 28,
-              ),
-              title: const Text("Notice Board"),
-            ),
+            Builder(builder: (context) {
+              return ListTile(
+                onTap: () {
+                  Scaffold.of(context).closeDrawer();
+                  navigate(context, const NoticeboardScreen());
+                },
+                leading: Image.asset(
+                  noticeBoardIcon,
+                  width: 28,
+                ),
+                title: const Text("Notice Board"),
+              );
+            }),
             buildDivider(),
             Builder(builder: (context) {
               return ListTile(
@@ -126,6 +134,31 @@ class StudentDashboard extends StatelessWidget {
                   width: 28,
                 ),
                 title: const Text("Teacher Evaluation"),
+              );
+            }),
+            buildDivider(),
+            Builder(builder: (context) {
+              return ListTile(
+                onTap: () {
+                  Scaffold.of(context).closeDrawer();
+                  navigate(context, const PeerEvaluationCourseScreen());
+                },
+                leading: Image.asset(
+                  peerEvaluationImage,
+                  width: 28,
+                ),
+                title: const Text("Teacher Ratings"),
+              );
+            }),
+            buildDivider(),
+            Builder(builder: (context) {
+              return ListTile(
+                onTap: () {
+                  Scaffold.of(context).closeDrawer();
+                  navigate(context, const AdvisesScreen());
+                },
+                leading: const Icon(Icons.person_3),
+                title: const Text("Advisor"),
               );
             }),
             const Spacer(),
