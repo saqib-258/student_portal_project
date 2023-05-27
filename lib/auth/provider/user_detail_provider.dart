@@ -13,4 +13,8 @@ class UserDetailProvider with ChangeNotifier {
     userDetail = result?.foldRight(userDetail, (r, previous) => r);
     notifyListeners();
   }
+
+  Future<void> loggedUser(String username) async {
+    userDetail = UserDetail(username: username);
+  }
 }
