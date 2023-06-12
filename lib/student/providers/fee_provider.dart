@@ -31,9 +31,26 @@ class FeeProvider with ChangeNotifier {
     challanUrl = result2?.foldRight(challanUrl, (r, previous) => r);
     isGenerating = false;
     if (challanUrl != null) {
-      feeDetail!.isChallanGenerated = true;
+      feeDetail!.status = "generated";
     }
     notifyListeners();
+  }
+
+  Future<bool> requestAdmin(List<int> installments) async {
+    var r = await _helper.requestAdmin(feeDetail!, installments);
+    bool success = false;
+    r.fold((l) {
+      success = false;
+    }, (r) {
+      if (r!) {
+        success = true;
+        feeDetail!.status = "requested";
+        notifyListeners();
+      } else {
+        success = false;
+      }
+    });
+    return success;
   }
 
   Future<void> getFeeStatus() async {

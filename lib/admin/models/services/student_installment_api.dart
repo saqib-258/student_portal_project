@@ -2,12 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
 import 'package:student_portal/shared/global.dart';
 
-class StudentFinancialAssistanceRequestsApi {
+class StudentInstallmentApi {
   String endPoint = "http://$ip/StudentPortal/api";
 
-  Future<Either<Exception, String>> getRequests() async {
+  Future<Either<Exception, String>> getInstallmentRequests() async {
     try {
-      String url = '$endPoint/Admin/GetFinancialAssistanceRequests';
+      String url = '$endPoint/Admin/GetInstallmentRequests';
       Uri uri = Uri.parse(url);
       final response = await get(uri);
       return Right(response.body);
@@ -16,22 +16,11 @@ class StudentFinancialAssistanceRequestsApi {
     }
   }
 
-  Future<Either<Exception, String>> getImages(int id) async {
-    try {
-      String url = '$endPoint/Admin/GetFinancialAssistanceImages?id=$id';
-      Uri uri = Uri.parse(url);
-      final response = await get(uri);
-      return Right(response.body);
-    } on Exception catch (e) {
-      return (Left(e));
-    }
-  }
-
-  static Future<Either<Exception, bool>> acceptFinancialAssistanceRequest(
+  static Future<Either<Exception, bool>> acceptInstallmentRequest(
       int id) async {
     try {
       String url =
-          'http://$ip/StudentPortal/api/Admin/AcceptFinancialAssistanceRequest?id=$id';
+          'http://$ip/StudentPortal/api/Student/AcceptInstallmentRequest?id=$id';
       Uri uri = Uri.parse(url);
       final response = await post(uri);
 
@@ -45,11 +34,11 @@ class StudentFinancialAssistanceRequestsApi {
     }
   }
 
-  static Future<Either<Exception, bool>> rejectFinancialAssistanceRequest(
-      int id, String reason) async {
+  static Future<Either<Exception, bool>> rejectInstallmentRequest(
+      int id) async {
     try {
       String url =
-          'http://$ip/StudentPortal/api/Admin/RejectFinancialAssistanceRequest?id=$id&reason=$reason';
+          'http://$ip/StudentPortal/api/Admin/RejectInstallmentRequest?id=$id';
       Uri uri = Uri.parse(url);
       final response = await post(uri);
 

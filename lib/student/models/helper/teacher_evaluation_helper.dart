@@ -8,7 +8,7 @@ import 'package:student_portal/student/models/services/teacher_evaluation_api.da
 
 class TeacherEvaluationHelper {
   final api = TeacherEvaluationApi();
-  Future<Either<Glitch, List<TeacherCourse>?>> getCourseAndTeachers() async {
+  Future<Either<Glitch, TeacherFeedbackModel?>> getCourseAndTeachers() async {
     final apiResult = await api.getCourseAndTeachers();
     return apiResult.fold((l) {
       return Left(NoInternetGlitch());
@@ -16,7 +16,7 @@ class TeacherEvaluationHelper {
       if (r.isEmpty) {
         return const Right(null);
       } else {
-        List<TeacherCourse> cList = TeacherCourse.fromJson(r);
+        TeacherFeedbackModel cList = TeacherFeedbackModel.fromJson(r);
 
         return Right(cList);
       }

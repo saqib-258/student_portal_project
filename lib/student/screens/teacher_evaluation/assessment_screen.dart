@@ -20,9 +20,9 @@ class AssessmentScreen extends StatefulWidget {
 
 class _AssessmentScreenState extends State<AssessmentScreen>
     with AfterLayoutMixin {
+  final provider = getIt<TeacherEvaluationProvider>();
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    final provider = getIt<TeacherEvaluationProvider>();
     provider.getCourseAndTeachers();
   }
 
@@ -32,20 +32,26 @@ class _AssessmentScreenState extends State<AssessmentScreen>
       appBar: AppBar(title: const Text("Teacher Evaluation")),
       body:
           Consumer<TeacherEvaluationProvider>(builder: (context, provider, _) {
-        if (provider.cList == null) {
+        if (provider.model == null) {
           return const Center(
             child: CircularProgressIndicator(),
           );
+        }
+        if (provider.model!.courses!.isEmpty) {
+          return const Center(child: Text("No data found"));
         }
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
+              CountdownWidget(
+                  targetDate: DateTime.parse(
+                      convertDateFormat(provider.model!.endDate!))),
               Expanded(
                 child: ListView.builder(
-                    itemCount: provider.cList!.length,
+                    itemCount: provider.model!.courses!.length,
                     itemBuilder: (context, index) {
-                      TeacherCourse c = provider.cList![index];
+                      TeacherCourse c = provider.model!.courses![index];
                       return GestureDetector(
                         onTap: c.isPending
                             ? () {
@@ -76,6 +82,57 @@ class _AssessmentScreenState extends State<AssessmentScreen>
           ),
         );
       }),
+    );
+  }
+}
+
+class CountdownWidget extends StatefulWidget {
+  final DateTime targetDate;
+
+  const CountdownWidget({super.key, required this.targetDate});
+
+  @override
+  CountdownWidgetState createState() => CountdownWidgetState();
+}
+
+class CountdownWidgetState extends State<CountdownWidget> {
+  late Timer _timer;
+  late Duration _remainingTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateRemainingTime();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      _calculateRemainingTime();
+    });
+  }
+
+  void _calculateRemainingTime() {
+    final currentTime = DateTime.now();
+    _remainingTime = widget.targetDate.difference(currentTime);
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final days = _remainingTime.inDays;
+    final hours = _remainingTime.inHours.remainder(24);
+    final minutes = _remainingTime.inMinutes.remainder(60);
+    final seconds = _remainingTime.inSeconds.remainder(60);
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        '${days}d ${hours}h ${minutes}m ${seconds}s',
+        style: mediumTextStyle.copyWith(fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

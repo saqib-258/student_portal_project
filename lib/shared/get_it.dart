@@ -5,12 +5,14 @@ import 'package:student_portal/admin/providers/student_fee_detail_provider.dart'
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
 import 'package:student_portal/admin/providers/student_fine_provider.dart';
+import 'package:student_portal/admin/providers/student_installment_provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
 import 'package:student_portal/auth/login_shred_pref.dart';
+import 'package:student_portal/notification/provider/notification_provider.dart';
 import 'package:student_portal/notification_service.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/providers/date_sheet_provider.dart';
-import 'package:student_portal/auth/provider/login_provider.dart';
+import 'package:student_portal/auth/provider/auth_provider.dart';
 import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/providers/evaluation_provider.dart';
 import 'package:student_portal/student/providers/fee_provider.dart';
@@ -33,7 +35,7 @@ final getIt = GetIt.instance;
 
 Future<void> setup() async {
   //auth
-  getIt.registerSingleton<LoginProvider>(LoginProvider());
+  getIt.registerSingleton<AuthProvider>(AuthProvider());
   getIt.registerSingleton<LoginSharedPreferences>(LoginSharedPreferences());
   getIt.registerSingleton<UserDetailProvider>(UserDetailProvider());
   //student
@@ -78,7 +80,10 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<AddNoticeBoardProvider>(
       () => AddNoticeBoardProvider());
+  getIt.registerLazySingleton<StudentInstallmentProvider>(
+      () => StudentInstallmentProvider());
 
   //notification
-  getIt.registerLazySingleton(() => NotificationService());
+  getIt.registerLazySingleton<NotificationService>(() => NotificationService());
+  getIt.registerSingleton<NotificationProvider>(NotificationProvider());
 }

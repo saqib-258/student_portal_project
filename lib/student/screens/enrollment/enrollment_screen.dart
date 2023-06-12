@@ -4,8 +4,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_portal/auth/login_shred_pref.dart';
-import 'package:student_portal/auth/screen/login_screen.dart';
+import 'package:student_portal/auth/provider/auth_provider.dart';
 import 'package:student_portal/shared/common_widgets/app_button.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/common_widgets/toast.dart';
@@ -39,8 +38,7 @@ class _EnrollmentScreenState extends State<EnrollmentScreen>
         actions: [
           IconButton(
               onPressed: () {
-                getIt<LoginSharedPreferences>().logout();
-                navigateAndOffAll(context, LoginScreen());
+                getIt<AuthProvider>().logoutUser(context);
               },
               icon: const Icon(Icons.logout))
         ],

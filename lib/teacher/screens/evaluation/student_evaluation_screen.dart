@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/shared/common_widgets/app_button.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
@@ -118,12 +119,24 @@ class _StudentAttendanceScreenState extends State<StudentEvaluationScreen>
                               Expanded(
                                   flex: 2,
                                   child: TextField(
-                                    textAlign: TextAlign.center,
                                     keyboardType: TextInputType.phone,
+                                    textAlign: TextAlign.center,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^-?\d{0,9}$')),
+                                      RangeTextInputFormatter(
+                                          min: 0,
+                                          max: int.parse(widget.total
+                                              .toString()
+                                              .split('.')[0])),
+                                    ],
                                     decoration: const InputDecoration(
                                         contentPadding: EdgeInsets.all(8),
                                         border: OutlineInputBorder()),
                                     onChanged: (val) {
+                                      if (val == "") {
+                                        return;
+                                      }
                                       provider.sList![index].obtainedMarks =
                                           double.parse(val.toString());
                                     },
@@ -159,5 +172,31 @@ class _StudentAttendanceScreenState extends State<StudentEvaluationScreen>
             }
           },
         ));
+  }
+}
+
+class RangeTextInputFormatter extends TextInputFormatter {
+  final int? min;
+  final int? max;
+
+  RangeTextInputFormatter({this.min, this.max});
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isNotEmpty) {
+      final intValue = int.tryParse(newValue.text);
+      if (intValue != null) {
+        if (min != null && intValue < min!) {
+          return oldValue;
+        }
+        if (max != null && intValue > max!) {
+          return oldValue;
+        }
+      } else {
+        return oldValue;
+      }
+    }
+    return newValue;
   }
 }

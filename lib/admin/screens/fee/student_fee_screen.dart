@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/screens/fee/student_fee_status_screen.dart';
+import 'package:student_portal/admin/screens/fee/student_installment_screen.dart';
 import 'package:student_portal/shared/common_widgets/app_filter_button.dart';
 import 'package:student_portal/shared/common_widgets/student_detail_card.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
@@ -33,7 +35,16 @@ class _StudentFeeScreenState extends State<StudentFeeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Student Fee")),
+      appBar: AppBar(
+        title: const Text("Student Fee"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                navigate(context, const StudentInstallmentScreen());
+              },
+              icon: const Icon(FontAwesomeIcons.envelope))
+        ],
+      ),
       body: Column(
         children: [
           Padding(

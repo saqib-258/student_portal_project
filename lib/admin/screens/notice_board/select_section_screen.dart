@@ -28,7 +28,7 @@ class _SelectSectionScreenState extends State<SelectSectionScreen>
     await getIt<AddNoticeBoardProvider>().getSectionList();
   }
 
-  _onAddNoticeBoard() {
+  _onAddNoticeBoard(BuildContext context2) {
     final provider = getIt<AddNoticeBoardProvider>();
     Map<String, dynamic> noticeBoardMap;
     List<Map<String, dynamic>> sList = [];
@@ -36,12 +36,16 @@ class _SelectSectionScreenState extends State<SelectSectionScreen>
       for (var semester in program.semesters) {
         for (var section in semester.sections) {
           if (section.isSelected) {
-            sList.add(
-                {"semester": semester, "section": section, "program": program});
+            sList.add({
+              "semester": semester.semester,
+              "section": section.section,
+              "program": program.program
+            });
           }
         }
       }
     }
+
     noticeBoardMap = {
       "description": provider.descriptionController.text,
       "title": provider.titleController.text
@@ -58,6 +62,7 @@ class _SelectSectionScreenState extends State<SelectSectionScreen>
                 dismissOnTap: false,
                 maskType: EasyLoadingMaskType.black,
               );
+
               var result = await AddNoticeBoardApi.addNoticeBoard(finalMap);
               await Future.delayed(const Duration(seconds: 1));
               result.fold((l) {
@@ -65,6 +70,9 @@ class _SelectSectionScreenState extends State<SelectSectionScreen>
               }, (r) {
                 if (r == true) {
                   showToast("Notice board Added Successfully");
+                  Navigator.pop(context2);
+                  provider.descriptionController.clear();
+                  provider.titleController.clear();
                 } else {
                   showToast("Something went wrong");
                 }
@@ -103,7 +111,7 @@ class _SelectSectionScreenState extends State<SelectSectionScreen>
               }),
             ),
             AppButton(
-              onTap: _onAddNoticeBoard,
+              onTap: () => _onAddNoticeBoard(context),
               child: Text(
                 "Add",
                 style: textColorStyle,

@@ -36,16 +36,19 @@ class _AssistanceRequestDetailScreenState extends State<StudentFineDetail>
                 style: ElevatedButton.styleFrom(
                     backgroundColor: secondaryCardColor),
                 onPressed: () {
+                  TextEditingController controller = TextEditingController();
                   showDialog(
                       context: context,
                       builder: (context) => AppConfirmDialog(
+                          isReason: true,
+                          controller: controller,
                           title: "Do you want to reject fine?",
                           onConfirm: () async {
                             Navigator.pop(context);
                             EasyLoading.show(
                                 indicator: const CircularProgressIndicator());
                             var result = await StudentFineApi.rejectFine(
-                                widget.model.id);
+                                widget.model.id, controller.text);
                             await Future.delayed(const Duration(seconds: 1));
                             result.fold((l) {
                               showToast("Something went wrong");

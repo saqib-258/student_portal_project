@@ -34,6 +34,22 @@ class FeeApi {
     }
   }
 
+  Future<Either<Exception, bool>> requestAdmin(Map<String, dynamic> map) async {
+    try {
+      String url = '$endPoint/Student/InstallmentRequest';
+      Uri uri = Uri.parse(url);
+      final response = await http.post(uri,
+          body: jsonEncode(map),
+          headers: <String, String>{'Content-Type': 'application/json'});
+      if (response.statusCode == 200) {
+        return const Right(true);
+      }
+      return const Right(false);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+
   Future<Either<Exception, String>> getChallan() async {
     try {
       String url =

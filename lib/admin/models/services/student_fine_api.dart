@@ -34,9 +34,11 @@ class StudentFineApi {
     }
   }
 
-  static Future<Either<Exception, bool>> rejectFine(int id) async {
+  static Future<Either<Exception, bool>> rejectFine(
+      int id, String reason) async {
     try {
-      String url = 'http://$ip/StudentPortal/api/Admin/RejectFine?id=$id';
+      String url =
+          'http://$ip/StudentPortal/api/Admin/RejectFine?id=$id&reason=$reason';
       Uri uri = Uri.parse(url);
       final response = await post(uri);
 

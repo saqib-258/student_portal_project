@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:student_portal/shared/glitch/glitch.dart';
 import 'package:student_portal/shared/glitch/no_internet_glitch.dart';
@@ -17,7 +19,8 @@ class PeerEvaluationHelper {
       if (r.isEmpty) {
         return const Right(null);
       } else {
-        List<TeacherCourse> cList = TeacherCourse.fromJson(r);
+        List<TeacherCourse> cList =
+            TeacherCourse.fromMap(jsonDecode(r) as List<dynamic>);
         return Right(cList);
       }
     });

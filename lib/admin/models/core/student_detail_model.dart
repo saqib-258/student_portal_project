@@ -8,6 +8,14 @@ class StudentDetailModel {
   String section;
   String program;
   String session;
+  StudentDetailModel(
+      {required this.name,
+      required this.profilePhoto,
+      required this.program,
+      required this.regNo,
+      required this.section,
+      required this.semester,
+      required this.session});
   StudentDetailModel.fromMap(Map<String, dynamic> map)
       : regNo = map['reg_no'],
         name = map['name'],

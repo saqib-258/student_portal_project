@@ -163,13 +163,13 @@ class MainAttendanceScreen extends StatelessWidget {
               height5(),
               Text(course.courseCode),
               height20(),
-              AppButton(
-                  child: Text(
-                    "View Attendance",
-                    style: textColorStyle,
-                  ),
-                  onTap: () {}),
-              height10(),
+              // AppButton(
+              //     child: Text(
+              //       "View Attendance",
+              //       style: textColorStyle,
+              //     ),
+              //     onTap: () {}),
+              // height10(),
               AppButton(
                   child: Text(
                     "Mark Attendance",

@@ -19,9 +19,9 @@ class EnrollmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool?> getEnrollmentStatus() async {
-    Either<Glitch, bool?> result = await _helper.getEnrollmentStatus();
-    bool? status;
+  Future<String?> getEnrollmentStatus() async {
+    Either<Glitch, String?> result = await _helper.getEnrollmentStatus();
+    String? status;
     status = result.foldRight(status, (r, previous) => r);
     return status;
   }

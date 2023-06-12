@@ -14,7 +14,7 @@ class UserDetailProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loggedUser(String username) async {
+  void loggedUser(String username) async {
     userDetail = UserDetail(username: username);
   }
 }

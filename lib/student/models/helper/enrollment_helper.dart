@@ -9,7 +9,7 @@ import 'package:student_portal/student/models/services/enrollment_api.dart';
 
 class EnrollmentHelper {
   final api = EnrollmentApi();
-  Future<Either<Glitch, bool?>> getEnrollmentStatus() async {
+  Future<Either<Glitch, String?>> getEnrollmentStatus() async {
     final apiResult = await api.getEnrollmentStatus();
     return apiResult.fold((l) {
       return Left(NoInternetGlitch());
@@ -17,7 +17,7 @@ class EnrollmentHelper {
       if (r.isEmpty) {
         return const Right(null);
       } else {
-        bool status = jsonDecode(r);
+        String status = jsonDecode(r);
 
         return Right(status);
       }

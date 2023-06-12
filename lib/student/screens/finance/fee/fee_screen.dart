@@ -12,9 +12,9 @@ import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/providers/fee_provider.dart';
 // ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'package:student_portal/student/screens/finance/fee/challan_view.dart';
 import 'package:student_portal/student/screens/finance/fee/fee_status_screen.dart';
+import 'package:student_portal/student/screens/finance/fee/installments_screen.dart';
 
 class FeeScreen extends StatefulWidget {
   const FeeScreen({super.key});
@@ -107,28 +107,6 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
                                   });
                                 }),
                           ),
-                          height10(),
-                          Column(
-                            children: installments
-                                .mapIndexed((i, e) => Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Card(
-                                        color: backgroundColor,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(6.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text("Installment No ${i + 1}"),
-                                              Text(e.toString()),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                          ),
                           height20(),
                           Consumer<FeeProvider>(
                               builder: (context, provider, _) {
@@ -136,15 +114,21 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
                                 onPressed: installments.isEmpty
                                     ? null
                                     : () async {
+                                        if (noOfInstallments != 1) {
+                                          Navigator.pop(context);
+                                          navigate(
+                                              context,
+                                              InstallmentsScreen(
+                                                  totalFee: totalFee,
+                                                  noOfInstallments:
+                                                      noOfInstallments!));
+                                          return;
+                                        }
                                         await provider
                                             .generateChallan(installments);
                                         // ignore: use_build_context_synchronously
                                         Navigator.pop(context);
                                         if (provider.challanUrl != null) {
-                                          // if (!FlutterDownloader.initialized) {
-                                          //   await FlutterDownloader.initialize(
-                                          //       debug: true, ignoreSsl: true);
-                                          // }
                                           // ignore: use_build_context_synchronously
                                           navigate(
                                               context,
@@ -162,7 +146,9 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
                                           strokeWidth: 3,
                                         ),
                                       )
-                                    : const Text("Generate"));
+                                    : Text(noOfInstallments == 1
+                                        ? "Generate"
+                                        : "Set installments"));
                           })
                         ],
                       )),
@@ -173,8 +159,9 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
       child: AppButton(
+          isDisabled: provider.feeDetail!.status == "requested" ? true : false,
           onTap: () async {
-            if (provider.feeDetail!.isChallanGenerated) {
+            if (provider.feeDetail!.status == "generated") {
               if (provider.challanUrl == null) {
                 await provider.getChallan();
               }
@@ -188,9 +175,11 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
             }
           },
           child: Text(
-            provider.feeDetail!.isChallanGenerated
+            provider.feeDetail!.status == "generated"
                 ? "View Challan"
-                : "Generate Challan",
+                : provider.feeDetail!.status == "pending"
+                    ? "Generate Challan"
+                    : "Request pending",
             style: textColorStyle,
           )),
     );
@@ -200,7 +189,7 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
       child: AppButton(
-          isDisabled: provider.feeDetail!.isChallanGenerated ? false : true,
+          isDisabled: provider.feeDetail!.status == "generated" ? false : true,
           onTap: () {
             navigate(context, const FeeStatus());
           },

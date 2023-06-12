@@ -201,13 +201,13 @@ class MainEvaluationScreen extends StatelessWidget {
               height5(),
               Text(course.courseCode),
               height20(),
-              AppButton(
-                  child: Text(
-                    "View Evaluation",
-                    style: textColorStyle,
-                  ),
-                  onTap: () {}),
-              height10(),
+              // AppButton(
+              //     child: Text(
+              //       "View Evaluation",
+              //       style: textColorStyle,
+              //     ),
+              //     onTap: () {}),
+              // height10(),
               AppButton(
                   child: Text(
                     "Mark Evaluation",

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:student_portal/auth/login_shred_pref.dart';
+import 'package:student_portal/auth/provider/auth_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
-import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/shared/common_widgets/background_decoration.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
@@ -44,8 +43,8 @@ class _StudentDashboardState extends State<StudentDashboard> {
 
   init() async {
     final enrollmentProvider = getIt<EnrollmentProvider>();
-    bool? status = await enrollmentProvider.getEnrollmentStatus();
-    if (!status!) {
+    String? status = await enrollmentProvider.getEnrollmentStatus();
+    if (status == "not-enrolled") {
       // ignore: use_build_context_synchronously
       navigateAndOffAll(context, const EnrollmentScreen());
     }
@@ -191,9 +190,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
             buildDivider(),
             ListTile(
               onTap: () {
-                getIt<LoginSharedPreferences>().logout();
-
-                navigateAndOffAll(context, LoginScreen());
+                getIt<AuthProvider>().logoutUser(context);
               },
               leading: const Icon(
                 FontAwesomeIcons.arrowRightFromBracket,

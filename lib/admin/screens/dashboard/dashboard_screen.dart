@@ -3,9 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/admin/screens/financial_assistance/student_financial_assistnace_request_screens.dart';
-import 'package:student_portal/auth/login_shred_pref.dart';
+import 'package:student_portal/auth/provider/auth_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
-import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
@@ -95,8 +94,7 @@ class AdminDashboard extends StatelessWidget {
             buildDivider(),
             ListTile(
               onTap: () {
-                getIt<LoginSharedPreferences>().logout();
-                navigateAndOffAll(context, LoginScreen());
+                getIt<AuthProvider>().logoutUser(context);
               },
               leading: const Icon(
                 FontAwesomeIcons.arrowRightFromBracket,

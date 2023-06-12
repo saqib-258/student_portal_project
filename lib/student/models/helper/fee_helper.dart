@@ -96,4 +96,27 @@ class FeeHelper {
       }
     });
   }
+
+  Future<Either<Glitch, bool?>> requestAdmin(
+      FeeDetail feeDetail, List<int> installments) async {
+    Map<String, dynamic> map = {
+      "regNo": user.userDetail!.username,
+      "semesterFee": feeDetail.semesterFee,
+      "admissionFee": feeDetail.admissionFee,
+      "extraCourseFee": feeDetail.extraCourseFee,
+      "otherFee": feeDetail.otherFee,
+      "installmentAmount": installments
+    };
+
+    final apiResult = await api.requestAdmin(map);
+    return apiResult.fold((l) {
+      return Left(NoInternetGlitch());
+    }, (r) {
+      if (!r) {
+        return const Right(false);
+      } else {
+        return const Right(true);
+      }
+    });
+  }
 }

@@ -33,6 +33,7 @@ class AddNoticeBoardApi {
         return right(false);
       }
     } on Exception catch (e) {
+      print(e);
       return (Left(e));
     }
   }

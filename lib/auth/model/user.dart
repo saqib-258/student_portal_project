@@ -11,7 +11,7 @@ class User {
 class UserDetail {
   String? name;
   late String username;
-  late String? profilePhoto;
+  String? profilePhoto;
   UserDetail.fromMap(Map<String, dynamic> map) {
     name = map["first_name"];
     username = map["username"];

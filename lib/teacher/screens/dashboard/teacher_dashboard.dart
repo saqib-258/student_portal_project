@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:student_portal/auth/login_shred_pref.dart';
+import 'package:student_portal/auth/provider/auth_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
-import 'package:student_portal/auth/screen/login_screen.dart';
 
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
@@ -103,9 +102,7 @@ class TeacherDashboard extends StatelessWidget {
             buildDivider(),
             ListTile(
               onTap: () {
-                getIt<LoginSharedPreferences>().logout();
-
-                navigateAndOffAll(context, LoginScreen());
+                getIt<AuthProvider>().logoutUser(context);
               },
               leading: const Icon(
                 FontAwesomeIcons.arrowRightFromBracket,

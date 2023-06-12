@@ -5,14 +5,14 @@ class FeeDetail {
   int extraCourseFee;
   int otherFee;
   int enrolledCoursesCount;
-  bool isChallanGenerated;
+  String status;
   int admissionFee;
   FeeDetail(
       {required this.admissionFee,
       required this.semesterFee,
       required this.extraCourseFee,
       required this.enrolledCoursesCount,
-      required this.isChallanGenerated,
+      required this.status,
       required this.otherFee});
 
   static FeeDetail fromJson(String body) {
@@ -22,7 +22,7 @@ class FeeDetail {
         semesterFee: data['semesterFee'],
         extraCourseFee: data['extraCourseFee'],
         enrolledCoursesCount: data['enrolledCoursesCount'],
-        isChallanGenerated: data['isChallanGenerated'],
+        status: data['status'],
         otherFee: data['otherFee']);
   }
 }

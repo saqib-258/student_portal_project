@@ -7,15 +7,15 @@ import 'package:student_portal/student/models/helper/teacher_evaluation_helper.d
 
 class TeacherEvaluationProvider with ChangeNotifier {
   final _helper = TeacherEvaluationHelper();
-  Either<Glitch, List<TeacherCourse>?>? result;
+  Either<Glitch, TeacherFeedbackModel?>? result;
   Either<Glitch, List<TeacherEvaluationQuestion>?>? questionsResult;
 
-  List<TeacherCourse>? cList;
+  TeacherFeedbackModel? model;
   List<TeacherEvaluationQuestion>? qList;
 
   Future<void> getCourseAndTeachers() async {
     result = await _helper.getCourseAndTeachers();
-    cList = result?.foldRight(cList, (r, previous) => r);
+    model = result?.foldRight(model, (r, previous) => r);
     notifyListeners();
   }
 

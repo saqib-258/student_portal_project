@@ -1,6 +1,23 @@
 import 'dart:convert';
 import 'package:student_portal/teacher/models/core/course.dart';
 
+class TeacherFeedbackModel {
+  String? endDate;
+  List<TeacherCourse>? courses;
+  TeacherFeedbackModel.fromJson(String body) {
+    var data = (jsonDecode(body) as dynamic);
+    if (data == "no-data") {
+      endDate = "";
+      courses = [];
+    }
+  else{
+     endDate = data['endDate'];
+    courses = TeacherCourse.fromMap(data['data']);
+  }
+   
+  }
+}
+
 class TeacherCourse extends Course {
   final String teacherName;
   int id;
@@ -12,9 +29,9 @@ class TeacherCourse extends Course {
     required super.courseName,
     required this.isPending,
   });
-  static List<TeacherCourse> fromJson(String body) {
+  static List<TeacherCourse> fromMap(List<dynamic> mapList) {
     List<TeacherCourse> tList = [];
-    tList = (jsonDecode(body) as List<dynamic>)
+    tList = mapList
         .map((e) => TeacherCourse(
             id: e['id'],
             isPending: e['isPending'],

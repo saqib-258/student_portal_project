@@ -157,8 +157,9 @@ class _AttendanceDataTableState extends State<AttendanceDetailScreen> {
                         itemBuilder: (context, index) {
                           AttendanceDetailModel model = aList[index];
                           return GestureDetector(
-                              onLongPress: () =>
-                                  onLongPress(context, model.aid),
+                              onLongPress: aList[index].status == "P"
+                                  ? null
+                                  : () => onLongPress(context, model.aid),
                               child: AttendanceCard(model: model));
                         }),
                   ),
