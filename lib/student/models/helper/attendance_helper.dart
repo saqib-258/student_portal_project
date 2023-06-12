@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:student_portal/student/models/core/attendance.dart';
 import 'package:student_portal/shared/glitch/glitch.dart';
@@ -22,24 +24,36 @@ class AttendanceHelper {
   }
 
   Future<Either<Glitch, bool?>?> contestAttendace(
-      List<AttendanceContest> cList, String courseCode, int eid) async {
+      int attendanceId, String courseCode, int eid) async {
     List<Map<String, dynamic>> contestMap = [];
-    for (int i = 0; i < cList.length; i++) {
-      if (cList[i].isChecked) {
-        contestMap.add(
-          {
-            "attendance_id": cList[i].aid,
-            "course_code": courseCode,
-            "enrollment_id": eid
-          },
-        );
-      }
-    }
+    contestMap.add(
+      {
+        "attendance_id": attendanceId,
+        "course_code": courseCode,
+        "enrollment_id": eid
+      },
+    );
     final apiResult = await api.contestAttendance(contestMap);
     return apiResult.fold((l) {
       return Left(NoInternetGlitch());
     }, (r) {
       return Right(r);
+    });
+  }
+
+  Future<Either<Glitch, List<int>?>?> getAbsentList(int eid) async {
+    final apiResult = await api.getAbsentList(eid);
+    return apiResult.fold((l) {
+      return Left(NoInternetGlitch());
+    }, (r) {
+      if (r.isEmpty) {
+        return const Right(null);
+      } else {
+        List<int> attendance =
+            (jsonDecode(r) as List<dynamic>).map((e) => e as int).toList();
+
+        return Right(attendance);
+      }
     });
   }
 }

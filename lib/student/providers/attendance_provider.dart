@@ -7,7 +7,9 @@ import 'package:student_portal/shared/glitch/glitch.dart';
 class AttendanceProvider with ChangeNotifier {
   final _helper = AttendanceHelper();
   Either<Glitch, List<AttendanceModel>?>? result;
+  Either<Glitch, List<int>?>? absentResult;
   List<AttendanceModel>? attendanceList;
+  List<int>? absentIds;
 
   Future<void> getTimeTable() async {
     result = await _helper.getAttendance();
@@ -16,11 +18,17 @@ class AttendanceProvider with ChangeNotifier {
   }
 
   Future<bool?> contestAttendace(
-      List<AttendanceContest> cList, String courseCode, int eid) async {
+      int attendanceId, String courseCode, int eid) async {
     Either<Glitch, bool?>? result =
-        await _helper.contestAttendace(cList, courseCode, eid);
+        await _helper.contestAttendace(attendanceId, courseCode, eid);
     bool? isDone;
     isDone = result?.foldRight(isDone, (r, previous) => r);
     return isDone;
+  }
+
+  Future<void> getAbsentList(int eid) async {
+    absentResult = await _helper.getAbsentList(eid);
+    absentIds = absentResult?.foldRight(absentIds, (r, previous) => r);
+    notifyListeners();
   }
 }

@@ -2,13 +2,17 @@ import 'dart:async';
 
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
+import 'package:student_portal/shared/common_widgets/toast.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/common.dart';
+import 'package:student_portal/teacher/models/services/student_attendance_api.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
+import 'package:student_portal/teacher/screens/attendance/contest_setting.dart';
 
 class ContestScreen extends StatefulWidget {
   const ContestScreen({super.key});
@@ -27,7 +31,16 @@ class _ContestScreenState extends State<ContestScreen> with AfterLayoutMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Contests")),
+      appBar: AppBar(
+        title: const Text("Contests"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                navigate(context, const ContestSetting());
+              },
+              icon: const Icon(FontAwesomeIcons.gear))
+        ],
+      ),
       body:
           Consumer<StudentAttendanceProvider>(builder: (context, provider, _) {
         if (provider.cList == null) {
@@ -84,11 +97,32 @@ class _ContestScreenState extends State<ContestScreen> with AfterLayoutMixin {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    var result = await StudentAttendanceApi
+                                        .acceptContest(
+                                            provider.cList![index].id);
+
+                                    result.fold((l) {
+                                      showToast("Something went wrong");
+                                    }, (r) {
+                                      showToast("Accepted successfully");
+                                      provider.removeContest(index);
+                                    });
+                                  },
                                   child: const Text("Accept")),
                               width10(),
                               ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    var result = await StudentAttendanceApi
+                                        .rejectContest(
+                                            provider.cList![index].id);
+                                    result.fold((l) {
+                                      showToast("Something went wrong");
+                                    }, (r) {
+                                      showToast("Rejected successfully");
+                                      provider.removeContest(index);
+                                    });
+                                  },
                                   child: const Text("Reject")),
                             ],
                           )

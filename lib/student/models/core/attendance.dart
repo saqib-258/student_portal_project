@@ -52,13 +52,3 @@ class AttendanceDetailModel {
       required this.date,
       required this.type});
 }
-
-class AttendanceContest extends AttendanceDetailModel {
-  bool isChecked;
-  AttendanceContest(
-      {required super.aid,
-      required super.status,
-      required super.date,
-      required super.type,
-      required this.isChecked});
-}

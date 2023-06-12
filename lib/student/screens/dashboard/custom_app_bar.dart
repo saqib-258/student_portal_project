@@ -52,7 +52,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 style: header1TextStyle.copyWith(color: textColor)),
             Consumer<UserDetailProvider>(builder: (context, provider, _) {
               return Text(
-                "Welcome, ${user.userDetail == null ? "" : user.userDetail!.name}",
+                "Welcome, ${user.userDetail == null || user.userDetail!.name == null ? "" : user.userDetail!.name}",
                 style: const TextStyle(color: textColor),
               );
             }),

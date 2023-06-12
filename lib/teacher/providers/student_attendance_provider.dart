@@ -24,6 +24,11 @@ class StudentAttendanceProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeContest(int index) {
+    cList!.removeAt(index);
+    notifyListeners();
+  }
+
   void changeType(String val) {
     type = val;
     notifyListeners();

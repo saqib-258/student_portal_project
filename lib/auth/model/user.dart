@@ -5,10 +5,11 @@ class User {
     username = map["username"];
     role = map["role"];
   }
+  User({required this.username, required this.role});
 }
 
 class UserDetail {
-  late String name;
+  String? name;
   late String username;
   late String? profilePhoto;
   UserDetail.fromMap(Map<String, dynamic> map) {
@@ -16,4 +17,5 @@ class UserDetail {
     username = map["username"];
     profilePhoto = map["profile_photo"];
   }
+  UserDetail({required this.username});
 }

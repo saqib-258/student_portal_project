@@ -35,4 +35,15 @@ class AttendaceApi {
       return (Left(e));
     }
   }
+
+  Future<Either<Exception, String>> getAbsentList(int id) async {
+    try {
+      String url = '$endPoint/Student/GetAbsentList?eid=$id';
+      Uri uri = Uri.parse(url);
+      final response = await http.get(uri);
+      return Right(response.body);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
 }

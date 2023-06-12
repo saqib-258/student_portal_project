@@ -6,6 +6,7 @@ import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
 import 'package:student_portal/admin/providers/student_fine_provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
+import 'package:student_portal/auth/login_shred_pref.dart';
 import 'package:student_portal/notification_service.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/providers/date_sheet_provider.dart';
@@ -33,6 +34,7 @@ final getIt = GetIt.instance;
 Future<void> setup() async {
   //auth
   getIt.registerSingleton<LoginProvider>(LoginProvider());
+  getIt.registerSingleton<LoginSharedPreferences>(LoginSharedPreferences());
   getIt.registerSingleton<UserDetailProvider>(UserDetailProvider());
   //student
   getIt.registerLazySingleton<TimeTableProvider>(() => TimeTableProvider());

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:student_portal/shared/common_widgets/app_confirm_dialog.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
+import 'package:student_portal/shared/common_widgets/toast.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
-import 'package:student_portal/shared/utils/common.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/student/models/core/attendance.dart';
+import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/screens/attendance/attendance_card.dart';
-import 'package:student_portal/student/screens/attendance/attendance_contest_screen.dart';
 import 'package:student_portal/student/screens/attendance/attendance_progress_indicator.dart';
 
 class AttendanceDetailScreen extends StatefulWidget {
@@ -19,19 +20,54 @@ class AttendanceDetailScreen extends StatefulWidget {
 }
 
 class _AttendanceDataTableState extends State<AttendanceDetailScreen> {
-  String type = "class";
+  String type = "all";
   List<AttendanceDetailModel> aList = [];
 
   getList() {
-    aList =
-        widget.item.detail.where((element) => element.type == type).toList();
+    if (type == "all") {
+      aList = widget.item.detail;
+    } else {
+      aList =
+          widget.item.detail.where((element) => element.type == type).toList();
+    }
+    aList.sort(
+      (a, b) => DateTime.parse(a.date.split(',')[0])
+          .compareTo(DateTime.parse(b.date.split(',')[0])),
+    );
+    aList = aList.reversed.toList();
     setState(() {});
   }
 
   @override
   void initState() {
+    getIt<AttendanceProvider>().getAbsentList(widget.item.enrollmentId);
     getList();
     super.initState();
+  }
+
+  onLongPress(BuildContext context, int attendanceId) {
+    final provider = getIt<AttendanceProvider>();
+    if (provider.absentIds == null) {
+      showToast("Please try again");
+    } else if (!provider.absentIds!.contains(attendanceId)) {
+      showToast("You cannot contest this attendance");
+    } else {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => AppConfirmDialog(
+              title: "Do you really want to contest?",
+              onConfirm: () async {
+                bool? isDone = await provider.contestAttendace(attendanceId,
+                    widget.item.courseCode, widget.item.enrollmentId);
+
+                if (isDone != null) {
+                  showToast("Submitted successfully");
+                }
+                // ignore: use_build_context_synchronously
+                Navigator.pop(context);
+              }));
+    }
   }
 
   @override
@@ -40,48 +76,6 @@ class _AttendanceDataTableState extends State<AttendanceDetailScreen> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: const Text("Attendance"),
-        actions: [
-          GestureDetector(
-            child: PopupMenuButton<String>(
-                itemBuilder: (_) => const <PopupMenuItem<String>>[
-                      PopupMenuItem<String>(
-                        value: 'contest',
-                        child: Text('Contest'),
-                      ),
-                    ],
-                onSelected: (String value) {
-                  if (value == 'contest') {
-                    List<AttendanceContest> absentsList = widget.item.detail
-                        .where(
-                          (element) => element.status == "A",
-                        )
-                        .map((e) => AttendanceContest(
-                            type: e.type,
-                            aid: e.aid,
-                            isChecked: false,
-                            date: e.date,
-                            status: e.status))
-                        .toList();
-
-                    navigate(
-                        context,
-                        AttendanceContestScreen(
-                          courseCode: widget.item.courseCode,
-                          eid: widget.item.enrollmentId,
-                          aList: absentsList,
-                        ));
-                  }
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Icon(
-                    FontAwesomeIcons.ellipsisVertical,
-                    color: textColor,
-                    size: 18,
-                  ),
-                )),
-          )
-        ],
       ),
       body: Column(
         children: [
@@ -90,7 +84,23 @@ class _AttendanceDataTableState extends State<AttendanceDetailScreen> {
             children: [
               Expanded(
                 child: RadioListTile(
-                    title: const Text("Class"),
+                    title: Text(
+                      "All",
+                      style: header2TextStyle,
+                    ),
+                    value: "all",
+                    groupValue: type,
+                    onChanged: (val) {
+                      type = val!;
+                      getList();
+                    }),
+              ),
+              Expanded(
+                child: RadioListTile(
+                    title: Text(
+                      "Class",
+                      style: header2TextStyle,
+                    ),
                     value: "class",
                     groupValue: type,
                     onChanged: (val) {
@@ -100,7 +110,10 @@ class _AttendanceDataTableState extends State<AttendanceDetailScreen> {
               ),
               Expanded(
                 child: RadioListTile(
-                    title: const Text("Lab"),
+                    title: Text(
+                      "Lab",
+                      style: header2TextStyle,
+                    ),
                     value: "lab",
                     groupValue: type,
                     onChanged: (val) {
@@ -143,7 +156,10 @@ class _AttendanceDataTableState extends State<AttendanceDetailScreen> {
                         itemCount: aList.length,
                         itemBuilder: (context, index) {
                           AttendanceDetailModel model = aList[index];
-                          return AttendanceCard(model: model);
+                          return GestureDetector(
+                              onLongPress: () =>
+                                  onLongPress(context, model.aid),
+                              child: AttendanceCard(model: model));
                         }),
                   ),
                 ],

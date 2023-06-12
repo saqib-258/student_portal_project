@@ -38,9 +38,10 @@ class StudentAttendanceApi {
     }
   }
 
-  Future<Either<Exception, bool>> acceptContest(int aid) async {
+  static Future<Either<Exception, bool>> acceptContest(int aid) async {
     try {
-      String url = '$endPoint/Teacher/AcceptContest?aid=$aid';
+      String url =
+          'http://$ip/StudentPortal/api/Teacher/AcceptContest?aid=$aid';
       Uri uri = Uri.parse(url);
       final response = await http.post(uri);
       if (response.statusCode == 200) {
@@ -53,9 +54,10 @@ class StudentAttendanceApi {
     }
   }
 
-  Future<Either<Exception, bool>> rejectContest(int aid) async {
+  static Future<Either<Exception, bool>> rejectContest(int aid) async {
     try {
-      String url = '$endPoint/Teacher/RejectContest?aid=$aid';
+      String url =
+          'http://$ip/StudentPortal/api/Teacher/RejectContest?aid=$aid';
       Uri uri = Uri.parse(url);
       final response = await http.post(uri);
       if (response.statusCode == 200) {
@@ -75,6 +77,33 @@ class StudentAttendanceApi {
       Uri uri = Uri.parse(url);
       final response = await http.get(uri);
       return Right(response.body);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+
+  static Future<Either<Exception, int>> getContestSetting() async {
+    try {
+      String url =
+          'http://$ip/StudentPortal/api/Teacher/GetContestSetting?teacherId=${user.userDetail!.username}';
+      Uri uri = Uri.parse(url);
+      final response = await http.get(uri);
+      return Right(jsonDecode(response.body) as dynamic);
+    } on Exception catch (e) {
+      return (Left(e));
+    }
+  }
+
+  static Future<Either<Exception, bool?>> setContestSetting(int days) async {
+    try {
+      String url =
+          'http://$ip/StudentPortal/api/Teacher/SetContestSetting?teacherId=${user.userDetail!.username}&days=$days';
+      Uri uri = Uri.parse(url);
+      final response = await http.post(uri);
+      if (response.statusCode == 200) {
+        return const Right(true);
+      }
+      return const Right(null);
     } on Exception catch (e) {
       return (Left(e));
     }

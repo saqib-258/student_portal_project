@@ -1,15 +1,30 @@
+import 'dart:async';
+
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/student/models/core/attendance.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/screens/attendance/attendance_detail_screen.dart';
 import 'package:student_portal/student/screens/attendance/attendance_progress_indicator.dart';
 
-class AttendanceScreen extends StatelessWidget {
+class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
+
+  @override
+  State<AttendanceScreen> createState() => _AttendanceScreenState();
+}
+
+class _AttendanceScreenState extends State<AttendanceScreen>
+    with AfterLayoutMixin {
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    getIt<AttendanceProvider>().getTimeTable();
+  }
 
   @override
   Widget build(BuildContext context) {

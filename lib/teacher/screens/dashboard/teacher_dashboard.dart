@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:student_portal/auth/login_shred_pref.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
 
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/shared/utils/grid_view_items.dart';
 import 'package:student_portal/teacher/screens/attendance/contest_screen.dart';
@@ -52,9 +54,10 @@ class TeacherDashboard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                provider.userDetail == null
+                                provider.userDetail == null ||
+                                        provider.userDetail!.name == null
                                     ? ""
-                                    : provider.userDetail!.name,
+                                    : provider.userDetail!.name!,
                                 style: const TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
@@ -100,6 +103,8 @@ class TeacherDashboard extends StatelessWidget {
             buildDivider(),
             ListTile(
               onTap: () {
+                getIt<LoginSharedPreferences>().logout();
+
                 navigateAndOffAll(context, LoginScreen());
               },
               leading: const Icon(

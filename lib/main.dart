@@ -9,6 +9,9 @@ import 'package:student_portal/admin/providers/student_fee_provider.dart';
 import 'package:student_portal/admin/providers/student_financial_assistance_requests_provider.dart';
 import 'package:student_portal/admin/providers/student_fine_provider.dart';
 import 'package:student_portal/admin/providers/teacher_evaluation_result_provider.dart';
+import 'package:student_portal/admin/screens/dashboard/dashboard_screen.dart';
+import 'package:student_portal/auth/login_shred_pref.dart';
+import 'package:student_portal/auth/model/user.dart';
 import 'package:student_portal/notification_service.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/app_theme.dart';
@@ -28,12 +31,14 @@ import 'package:student_portal/student/providers/teacher_evaluation_provider.dar
 import 'package:student_portal/student/providers/time_table_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
+import 'package:student_portal/student/screens/dashboard/student_dashboard.dart';
 import 'package:student_portal/student/screens/evaluation/evaluation_screen.dart';
 import 'package:student_portal/teacher/providers/course_advisor_provider.dart';
 import 'package:student_portal/teacher/providers/course_section_provider.dart';
 import 'package:student_portal/teacher/providers/mark_result_provider.dart';
 import 'package:student_portal/teacher/providers/peer_evaluation_provider.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
+import 'package:student_portal/teacher/screens/dashboard/teacher_dashboard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,10 +92,41 @@ Future<void> main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  User? loggedUser;
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  init() async {
+    loggedUser = await getIt<LoginSharedPreferences>().getLastLoginValue();
+    setState(() {});
+  }
+
+  Widget? getScreen(User r) {
+    getIt<UserDetailProvider>().loggedUser(r.username);
+    getIt<UserDetailProvider>().getUser(r.username, r.role);
+    if (r.role == "student") {
+      return const StudentDashboard();
+    } else if (r.role == "admin") {
+      return const AdminDashboard();
+    } else if (r.role == "teacher") {
+      getIt<CourseSectionProvider>().getCourseSection();
+      return const TeacherDashboard();
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -104,7 +140,7 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       theme: buildAppTheme(),
-      home: LoginScreen(),
+      home: loggedUser == null ? LoginScreen() : getScreen(loggedUser!),
     );
   }
 }

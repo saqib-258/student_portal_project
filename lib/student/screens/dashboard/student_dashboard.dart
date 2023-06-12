@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:student_portal/auth/login_shred_pref.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/auth/screen/login_screen.dart';
 import 'package:student_portal/shared/common_widgets/background_decoration.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/grid_view_items.dart';
+import 'package:student_portal/student/providers/enrollment_provider.dart';
 import 'package:student_portal/student/screens/course_advisor/advises.dart';
+import 'package:student_portal/student/screens/enrollment/enrollment_screen.dart';
 import 'package:student_portal/student/screens/noticeboard/noticeboard_screen.dart';
 import 'package:student_portal/student/screens/peer_evaluation/peer_evaluation_teachers_screen.dart';
 import 'package:student_portal/student/screens/teacher_evaluation/assessment_screen.dart';
@@ -17,13 +21,34 @@ import 'package:student_portal/student/screens/dashboard/custom_app_bar.dart';
 import 'package:student_portal/student/screens/datesheet/datesheet_screen.dart';
 import 'package:student_portal/student/screens/evaluation/exam_result_screen.dart';
 
-class StudentDashboard extends StatelessWidget {
+class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
+
+  @override
+  State<StudentDashboard> createState() => _StudentDashboardState();
+}
+
+class _StudentDashboardState extends State<StudentDashboard> {
   buildDivider() {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Divider(),
     );
+  }
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  init() async {
+    final enrollmentProvider = getIt<EnrollmentProvider>();
+    bool? status = await enrollmentProvider.getEnrollmentStatus();
+    if (!status!) {
+      // ignore: use_build_context_synchronously
+      navigateAndOffAll(context, const EnrollmentScreen());
+    }
   }
 
   Widget _buildDivider(BuildContext context) {
@@ -61,9 +86,10 @@ class StudentDashboard extends StatelessWidget {
                                         provider.userDetail!.profilePhoto!))),
                             height10(),
                             Text(
-                              provider.userDetail == null
+                              provider.userDetail == null ||
+                                      provider.userDetail!.name == null
                                   ? ""
-                                  : provider.userDetail!.name,
+                                  : provider.userDetail!.name!,
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 18),
                             ),
@@ -165,6 +191,8 @@ class StudentDashboard extends StatelessWidget {
             buildDivider(),
             ListTile(
               onTap: () {
+                getIt<LoginSharedPreferences>().logout();
+
                 navigateAndOffAll(context, LoginScreen());
               },
               leading: const Icon(
