@@ -10,6 +10,7 @@ import 'package:student_portal/admin/providers/teacher_evaluation_result_provide
 import 'package:student_portal/auth/login_shred_pref.dart';
 import 'package:student_portal/notification/provider/notification_provider.dart';
 import 'package:student_portal/notification_service.dart';
+import 'package:student_portal/parent/model/children_model.dart';
 import 'package:student_portal/student/providers/attendance_provider.dart';
 import 'package:student_portal/student/providers/date_sheet_provider.dart';
 import 'package:student_portal/auth/provider/auth_provider.dart';
@@ -86,4 +87,6 @@ Future<void> setup() async {
   //notification
   getIt.registerLazySingleton<NotificationService>(() => NotificationService());
   getIt.registerSingleton<NotificationProvider>(NotificationProvider());
+  //parent
+  getIt.registerLazySingleton<ChildrenModel>(() => ChildrenModel());
 }

@@ -149,6 +149,7 @@ class _ImagesRow extends StatefulWidget {
 
 class _ImagesRowState extends State<_ImagesRow> {
   Future<void> _pickImage(BuildContext context2) async {
+    final TextEditingController titleController = TextEditingController();
     showModalBottomSheet(
       context: context2,
       builder: (BuildContext context) {
@@ -157,8 +158,55 @@ class _ImagesRowState extends State<_ImagesRow> {
             XFile? imageFile = await ImagePicker()
                 .pickImage(source: imageSource, imageQuality: 50);
             if (imageFile != null) {
-              getIt<FinancialAssistanceProvider>()
-                  .addImage(File(imageFile.path));
+              titleController.clear();
+              // ignore: use_build_context_synchronously
+              showDialog(
+                  context: context2,
+                  builder: (context) => SimpleDialog(
+                        contentPadding: const EdgeInsets.all(20),
+                        children: [
+                          Container(
+                              height: 80,
+                              decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    navigate(
+                                        context,
+                                        FilePhotoViewerScreen(
+                                          photo: File(imageFile.path),
+                                        ));
+                                  },
+                                  child: Image.file(
+                                    File(imageFile.path),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
+                          height10(),
+                          TextField(
+                              decoration: const InputDecoration(
+                                  hintText: "Enter title",
+                                  border: OutlineInputBorder()),
+                              controller: titleController),
+                          height10(),
+                          ElevatedButton(
+                              onPressed: () {
+                                if (titleController.text.isEmpty) {
+                                  showToast("Title must not be empty");
+                                  return;
+                                }
+
+                                getIt<FinancialAssistanceProvider>().addImage(
+                                    File(imageFile.path), titleController.text);
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Add"))
+                        ],
+                      ));
             }
           },
         );
@@ -171,13 +219,14 @@ class _ImagesRowState extends State<_ImagesRow> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: SizedBox(
-        height: 80,
+        height: 110,
         width: double.infinity,
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Consumer<FinancialAssistanceProvider>(
               builder: (context, provider, _) {
             return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ListView.builder(
                     shrinkWrap: true,
@@ -187,28 +236,41 @@ class _ImagesRowState extends State<_ImagesRow> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: Container(
-                            height: 80,
-                            width: 90,
-                            decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: GestureDetector(
-                                onTap: () {
-                                  navigate(
-                                      context,
-                                      FilePhotoViewerScreen(
-                                        photo: provider.images[index],
-                                      ));
-                                },
-                                child: Image.file(
-                                  provider.images[index],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            )),
+                        child: SizedBox(
+                          width: 90,
+                          child: Column(
+                            children: [
+                              Container(
+                                  height: 80,
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        navigate(
+                                            context,
+                                            FilePhotoViewerScreen(
+                                              photo: provider.images[index].f,
+                                            ));
+                                      },
+                                      child: Image.file(
+                                        provider.images[index].f,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )),
+                              height5(),
+                              Text(
+                                provider.images[index].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                        ),
                       );
                     }),
                 width5(),

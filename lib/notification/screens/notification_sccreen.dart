@@ -23,7 +23,7 @@ class NotificationScreen extends StatelessWidget {
         if (provider.notifications == null) {
           return const Center(child: CircularProgressIndicator());
         } else if (provider.notifications!.isEmpty) {
-          const NoNotification();
+          return const NoNotification();
         }
 
         return ListView.builder(

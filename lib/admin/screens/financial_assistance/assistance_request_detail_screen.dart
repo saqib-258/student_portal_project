@@ -42,36 +42,42 @@ class _AssistanceRequestDetailScreenState
         return const Text("No images");
       }
       return SizedBox(
-        height: 100,
+        height: 116,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: provider.iList!.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: Container(
-                    height: 60,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          navigate(
-                              context,
-                              PhotoViewerScreen(
-                                  photo: getFileUrl("FinancialAssistanceImages",
-                                      provider.iList![index])));
-                        },
-                        child: Image.network(
-                          getFileUrl("FinancialAssistanceImages",
-                              provider.iList![index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )),
+                child: Column(
+                  children: [
+                    Container(
+                        height: 80,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: GestureDetector(
+                            onTap: () {
+                              navigate(
+                                  context,
+                                  PhotoViewerScreen(
+                                      photo: getFileUrl(
+                                          "FinancialAssistanceImages",
+                                          provider.iList![index].image)));
+                            },
+                            child: Image.network(
+                              getFileUrl("FinancialAssistanceImages",
+                                  provider.iList![index].image),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )),
+                    Text(provider.iList![index].title)
+                  ],
+                ),
               );
             }),
       );

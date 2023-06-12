@@ -9,6 +9,7 @@ class NotificationApi {
       String url =
           '$endPoint/Notification/GetNotifications?username=${user.userDetail!.username}';
       Uri uri = Uri.parse(url);
+
       final response = await get(uri);
       return Right(response.body);
     } on Exception catch (e) {
@@ -20,6 +21,7 @@ class NotificationApi {
     try {
       String url =
           'http://$ip/StudentPortal/api/Notification/SeenNotification?id=$id';
+
       Uri uri = Uri.parse(url);
       await post(uri);
       // ignore: empty_catches

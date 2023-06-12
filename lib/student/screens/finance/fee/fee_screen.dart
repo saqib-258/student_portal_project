@@ -110,6 +110,9 @@ class _FeeScreenState extends State<FeeScreen> with AfterLayoutMixin {
                           height20(),
                           Consumer<FeeProvider>(
                               builder: (context, provider, _) {
+                            if (provider.feeDetail!.status == "dateEnd") {
+                              return const SizedBox.shrink();
+                            }
                             return ElevatedButton(
                                 onPressed: installments.isEmpty
                                     ? null

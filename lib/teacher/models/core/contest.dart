@@ -7,6 +7,7 @@ class Contest extends CourseSection {
   final String name;
   String status;
   final String date;
+  final List<String> images;
 
   Contest(
       {required this.regNo,
@@ -18,12 +19,15 @@ class Contest extends CourseSection {
       required super.semester,
       required super.courseCode,
       required super.courseName,
-      required this.status});
+      required this.status,
+      required this.images});
 
   static List<Contest> fromJson(String body) {
     List<Contest> cList = [];
     cList = (jsonDecode(body) as List<dynamic>)
         .map((e) => Contest(
+            images:
+                (e['images'] as List<dynamic>).map((e) => e as String).toList(),
             id: e['attendance_id'],
             program: e['program'],
             section: e['section'],

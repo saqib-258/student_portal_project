@@ -7,7 +7,7 @@ class StudentDetailModel {
   int semester;
   String section;
   String program;
-  String session;
+  String? session;
   StudentDetailModel(
       {required this.name,
       required this.profilePhoto,

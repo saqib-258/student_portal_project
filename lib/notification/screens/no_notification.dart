@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 
 import 'package:student_portal/shared/utils/images.dart';
@@ -17,9 +18,8 @@ class NoNotification extends StatelessWidget {
           padding: const EdgeInsets.all(32),
           height: 250,
           width: 250,
-          decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              shape: BoxShape.circle),
+          decoration:
+              const BoxDecoration(color: textColor, shape: BoxShape.circle),
           child: Image.asset(noNotificationImage),
         ),
         const Spacer(),

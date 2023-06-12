@@ -6,6 +6,7 @@ import 'package:student_portal/admin/screens/financial_assistance/student_financ
 import 'package:student_portal/auth/provider/auth_provider.dart';
 import 'package:student_portal/auth/provider/user_detail_provider.dart';
 import 'package:student_portal/shared/common_widgets/constant.dart';
+import 'package:student_portal/shared/common_widgets/notification_icon_stack.dart';
 import 'package:student_portal/shared/configs/theme/app_colors.dart';
 import 'package:student_portal/shared/configs/theme/custom_text_styles.dart';
 import 'package:student_portal/shared/get_it.dart';
@@ -132,6 +133,7 @@ class AdminDashboard extends StatelessWidget {
             );
           }),
           title: const Text("Dashboard"),
+          actions: const [NotificationIconStack()],
         ),
         drawer: buildDrawer(context),
         body: Padding(

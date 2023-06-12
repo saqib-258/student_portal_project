@@ -1,11 +1,11 @@
-import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:student_portal/shared/global.dart';
+import 'package:student_portal/student/models/core/financial_assistance_images.dart';
 
 class FinancialAssistanceApi {
   static Future<Either<Exception, bool>> requestFinancialAssistance(
-      String description, List<File> images) async {
+      String description, List<FinancialAssistanceImages> images) async {
     try {
       String url =
           'http://$ip/StudentPortal/api/Student/RequestFinancialAssistance';
@@ -14,8 +14,8 @@ class FinancialAssistanceApi {
       request.fields['reg_no'] = user.userDetail!.username;
 
       for (int i = 0; i < images.length; i++) {
-        http.MultipartFile newfile =
-            await http.MultipartFile.fromPath('image${i + 1}', images[i].path);
+        http.MultipartFile newfile = await http.MultipartFile.fromPath(
+            images[i].title, images[i].f.path);
         request.files.add(newfile);
       }
 

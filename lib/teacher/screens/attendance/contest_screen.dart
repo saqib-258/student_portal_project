@@ -12,6 +12,7 @@ import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/utils/common.dart';
 import 'package:student_portal/teacher/models/services/student_attendance_api.dart';
 import 'package:student_portal/teacher/providers/student_attendance_provider.dart';
+import 'package:student_portal/teacher/screens/attendance/contest_attendance_images_screen.dart';
 import 'package:student_portal/teacher/screens/attendance/contest_setting.dart';
 
 class ContestScreen extends StatefulWidget {
@@ -94,36 +95,50 @@ class _ContestScreenState extends State<ContestScreen> with AfterLayoutMixin {
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ElevatedButton(
-                                  onPressed: () async {
-                                    var result = await StudentAttendanceApi
-                                        .acceptContest(
-                                            provider.cList![index].id);
+                              TextButton(
+                                  onPressed: () {
+                                    navigate(
+                                        context,
+                                        ContestAttendanceImagesScreen(
+                                            images:
+                                                provider.cList![index].images));
+                                  },
+                                  child: const Text("View Images")),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        var result = await StudentAttendanceApi
+                                            .acceptContest(
+                                                provider.cList![index].id);
 
-                                    result.fold((l) {
-                                      showToast("Something went wrong");
-                                    }, (r) {
-                                      showToast("Accepted successfully");
-                                      provider.removeContest(index);
-                                    });
-                                  },
-                                  child: const Text("Accept")),
-                              width10(),
-                              ElevatedButton(
-                                  onPressed: () async {
-                                    var result = await StudentAttendanceApi
-                                        .rejectContest(
-                                            provider.cList![index].id);
-                                    result.fold((l) {
-                                      showToast("Something went wrong");
-                                    }, (r) {
-                                      showToast("Rejected successfully");
-                                      provider.removeContest(index);
-                                    });
-                                  },
-                                  child: const Text("Reject")),
+                                        result.fold((l) {
+                                          showToast("Something went wrong");
+                                        }, (r) {
+                                          showToast("Accepted successfully");
+                                          provider.removeContest(index);
+                                        });
+                                      },
+                                      child: const Text("Accept")),
+                                  width10(),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        var result = await StudentAttendanceApi
+                                            .rejectContest(
+                                                provider.cList![index].id);
+                                        result.fold((l) {
+                                          showToast("Something went wrong");
+                                        }, (r) {
+                                          showToast("Rejected successfully");
+                                          provider.removeContest(index);
+                                        });
+                                      },
+                                      child: const Text("Reject")),
+                                ],
+                              ),
                             ],
                           )
                         ],

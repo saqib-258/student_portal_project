@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
+import 'package:student_portal/admin/models/core/student_financial_assistance_model.dart';
 import 'package:student_portal/admin/models/core/student_financial_assistance_request.dart';
 import 'package:student_portal/admin/models/helper/student_financial_assistance_requests_helper.dart';
 import 'package:student_portal/shared/glitch/glitch.dart';
@@ -7,10 +8,10 @@ import 'package:student_portal/shared/glitch/glitch.dart';
 class StudentFinancialAssistanceRequestsProvider with ChangeNotifier {
   final _helper = StudentFinancialAssistanceRequestsHelper();
   Either<Glitch, List<StudentFinancialAssistanceRequest>?>? result;
-  Either<Glitch, List<String>?>? result2;
+  Either<Glitch, List<StudentFinancialAssistanceModel>?>? result2;
 
   List<StudentFinancialAssistanceRequest>? sList;
-  List<String>? iList;
+  List<StudentFinancialAssistanceModel>? iList;
 
   Future<void> getRequests() async {
     result = await _helper.getRequests();

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:student_portal/notification_service.dart';
+import 'package:student_portal/parent/model/children_model.dart';
 import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/global.dart';
 
@@ -11,7 +12,7 @@ class FeeApi {
   Future<Either<Exception, String>> getFeeDetail() async {
     try {
       String url =
-          '$endPoint/Student/GetFeeDetail?reg_no=${user.userDetail!.username}';
+          '$endPoint/Student/GetFeeDetail?reg_no=${getIt<ChildrenModel>().getRegNo ?? user.userDetail!.username}';
       Uri uri = Uri.parse(url);
       final response = await http.get(uri);
       return Right(response.body);
@@ -53,7 +54,7 @@ class FeeApi {
   Future<Either<Exception, String>> getChallan() async {
     try {
       String url =
-          '$endPoint/Student/GetChallan?regNo=${user.userDetail!.username}';
+          '$endPoint/Student/GetChallan?regNo=${getIt<ChildrenModel>().getRegNo ?? user.userDetail!.username}';
       Uri uri = Uri.parse(url);
       final response = await http.get(uri);
 
@@ -66,7 +67,7 @@ class FeeApi {
   Future<Either<Exception, String>> getFeeStatus() async {
     try {
       String url =
-          '$endPoint/Student/GetFeeStatus?reg_no=${user.userDetail!.username}';
+          '$endPoint/Student/GetFeeStatus?reg_no=${getIt<ChildrenModel>().getRegNo ?? user.userDetail!.username}';
       Uri uri = Uri.parse(url);
       final response = await http.get(uri);
 

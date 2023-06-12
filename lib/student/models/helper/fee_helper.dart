@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:student_portal/parent/model/children_model.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/global.dart';
 import 'package:student_portal/student/models/core/challan_detail.dart';
 import 'package:student_portal/student/models/core/fee_detail.dart';
@@ -75,7 +77,7 @@ class FeeHelper {
   Future<Either<Glitch, String?>> generateChallan(
       FeeDetail feeDetail, List<int> installments) async {
     Map<String, dynamic> map = {
-      "regNo": user.userDetail!.username,
+      "regNo": getIt<ChildrenModel>().getRegNo ?? user.userDetail!.username,
       "semesterFee": feeDetail.semesterFee,
       "admissionFee": feeDetail.admissionFee,
       "extraCourseFee": feeDetail.extraCourseFee,
@@ -100,7 +102,7 @@ class FeeHelper {
   Future<Either<Glitch, bool?>> requestAdmin(
       FeeDetail feeDetail, List<int> installments) async {
     Map<String, dynamic> map = {
-      "regNo": user.userDetail!.username,
+      "regNo": getIt<ChildrenModel>().getRegNo ?? user.userDetail!.username,
       "semesterFee": feeDetail.semesterFee,
       "admissionFee": feeDetail.admissionFee,
       "extraCourseFee": feeDetail.extraCourseFee,

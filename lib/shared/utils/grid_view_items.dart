@@ -10,6 +10,7 @@ import 'package:student_portal/admin/screens/peer_evaluation/add_peer_evaluation
 import 'package:student_portal/admin/screens/time_table/manage_time_table_screen.dart';
 import 'package:student_portal/student/screens/attendance/attendance_screen.dart';
 import 'package:student_portal/student/screens/evaluation/evaluation_screen.dart';
+import 'package:student_portal/student/screens/finance/fee/fee_screen.dart';
 import 'package:student_portal/student/screens/finance/finance_screen.dart';
 import 'package:student_portal/shared/utils/images.dart';
 import 'package:student_portal/student/screens/timetable/timetable_screen.dart';
@@ -38,6 +39,21 @@ List<GridItem> studentDashboarGridItems = [
       image: timetableImage,
       screen: const TimetableScreen()),
   GridItem(title: "Finance", image: financeImage, screen: const FinanceScreen())
+];
+List<GridItem> parentDashboarGridItems = [
+  GridItem(
+      title: "Attendance",
+      image: attendanceImage,
+      screen: const AttendanceScreen()),
+  GridItem(
+      title: "Grading",
+      image: evaluationImage,
+      screen: const EvaluationScreen()),
+  GridItem(
+      title: "Timetable",
+      image: timetableImage,
+      screen: const TimetableScreen()),
+  GridItem(title: "Fee", image: financeImage, screen: const FeeScreen())
 ];
 List<GridItem> adminDashboardGridItems = [
   GridItem(

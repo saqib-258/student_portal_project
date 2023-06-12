@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
+import 'package:student_portal/parent/model/children_model.dart';
+import 'package:student_portal/shared/get_it.dart';
 import 'package:student_portal/shared/global.dart';
 
 class AttendaceApi {
@@ -9,7 +11,7 @@ class AttendaceApi {
   Future<Either<Exception, String>> getAttendance() async {
     try {
       String url =
-          '$endPoint/Student/GetAttendance?reg_no=${user.userDetail!.username}';
+          '$endPoint/Student/GetAttendance?reg_no=${getIt<ChildrenModel>().getRegNo ?? user.userDetail!.username}';
       Uri uri = Uri.parse(url);
       final response = await http.get(uri);
       return Right(response.body);
